@@ -530,40 +530,59 @@
     #team { background: var(--bg); }
     .team-grid {
       display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem; margin-top: 3.5rem; max-width: 680px;
+      gap: 1.5rem; margin-top: 3.5rem;
     }
     .team-card {
       background: rgba(255,255,255,0.025);
       backdrop-filter: blur(16px);
       border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 18px; padding: 2rem;
+      border-radius: 18px; padding: 2rem 2.25rem;
       transition: all 0.35s;
       box-shadow: 0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+      display: flex; flex-direction: column; gap: 1.25rem;
     }
     .team-card:hover {
       border-color: rgba(79,255,176,0.22);
       transform: translateY(-2px);
       box-shadow: 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
     }
+    .team-card-header { display: flex; align-items: center; gap: 1rem; }
     .avatar {
-      width: 52px; height: 52px; border-radius: 50%;
+      width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
       background: linear-gradient(135deg, rgba(79,255,176,0.15), rgba(0,212,255,0.1));
       border: 1px solid rgba(79,255,176,0.3);
       display: flex; align-items: center; justify-content: center;
       font-family: var(--font-display);
-      font-size: 1.1rem; font-weight: 700;
-      color: var(--accent); margin-bottom: 1.25rem;
+      font-size: 1rem; font-weight: 700;
+      color: var(--accent);
       box-shadow: 0 0 20px rgba(79,255,176,0.1);
     }
-    .team-card h3 {
+    .team-card-meta h3 {
       font-family: var(--font-display);
-      font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem;
+      font-size: 1rem; font-weight: 600; margin-bottom: 0.15rem;
     }
-    .team-card .role {
-      font-size: 0.78rem; color: var(--accent);
-      margin-bottom: 0.75rem; font-weight: 500;
+    .team-card-meta .role {
+      font-size: 0.75rem; color: var(--accent); font-weight: 500;
     }
-    .team-card p { font-size: 0.835rem; color: var(--muted); line-height: 1.75; }
+    .team-card-meta .edu {
+      font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem;
+    }
+    .team-divider {
+      height: 1px; background: var(--border);
+    }
+    .team-highlights { display: flex; flex-direction: column; gap: 0.6rem; }
+    .team-highlight {
+      display: flex; align-items: flex-start; gap: 0.65rem;
+      font-size: 0.835rem; color: var(--muted); line-height: 1.5;
+    }
+    .team-highlight svg { flex-shrink: 0; margin-top: 2px; color: var(--accent); opacity: 0.7; }
+    .team-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.25rem; }
+    .team-tag {
+      font-size: 0.7rem; font-family: var(--font-display); font-weight: 500;
+      padding: 0.2rem 0.6rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 4px; color: var(--muted);
+    }
 
     /* ── WAITLIST ── */
     #waitlist { background: var(--surface); text-align: center; position: relative; overflow: hidden; }
@@ -707,7 +726,7 @@
       .step { border-right: none; border-bottom: 1px solid var(--border); }
       .step:last-child { border-bottom: none; }
       .services-grid { grid-template-columns: 1fr; }
-      .team-grid { grid-template-columns: 1fr; max-width: 100%; }
+      .team-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
       .stats-inner { flex-direction: column; }
       .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 1.75rem 1rem; }
@@ -967,16 +986,71 @@
     <p class="section-sub reveal" data-es="Estudiantes de Ingeniería Civil Industrial con Diploma TI en la PUC. Construimos folil labs porque creemos que la IA debe ser accesible para todas las empresas." data-en="Industrial Civil Engineering students with TI Diploma at PUC. We built folil labs because we believe AI should be accessible to all companies.">Estudiantes de Ingeniería Civil Industrial con Diploma TI en la PUC. Construimos folil labs porque creemos que la IA debe ser accesible para todas las empresas.</p>
     <div class="team-grid">
       <div class="team-card reveal-slide-left reveal-delay-1">
-        <div class="avatar">PA</div>
-        <h3>Patricio Acevedo</h3>
-        <div class="role">Co-founder & AI Engineer</div>
-        <p data-es="ICI + Diploma TI, PUC. Agentes IA y automatización de procesos. Ciberseguridad aplicada en banca y defensa (CiberLab UC). Actualmente como intern en Novo Nordisk en proyectos de IA en salud." data-en="ICI + TI Diploma, PUC. AI agents and process automation. Applied cybersecurity in banking and defense (CiberLab UC). Currently interning at Novo Nordisk on AI projects in health.">ICI + Diploma TI, PUC. Agentes IA y automatización de procesos. Ciberseguridad aplicada en banca y defensa (CiberLab UC). Actualmente como intern en Novo Nordisk en proyectos de IA en salud.</p>
+        <div class="team-card-header">
+          <div class="avatar">PA</div>
+          <div class="team-card-meta">
+            <h3>Patricio Acevedo</h3>
+            <div class="role">Co-founder & AI Engineer</div>
+            <div class="edu">ICI + Diploma TI · PUC</div>
+          </div>
+        </div>
+        <div class="team-divider"></div>
+        <div class="team-highlights">
+          <div class="team-highlight">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            <span data-es="Agentes IA y automatización de procesos aplicada en banca y defensa — CiberLab UC." data-en="AI agents and process automation applied in banking and defense — CiberLab UC.">Agentes IA y automatización de procesos aplicada en banca y defensa — CiberLab UC.</span>
+          </div>
+          <div class="team-highlight">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            <span data-es="Intern en Novo Nordisk — proyectos de IA aplicada en salud." data-en="Intern at Novo Nordisk — applied AI projects in health.">Intern en Novo Nordisk — proyectos de IA aplicada en salud.</span>
+          </div>
+          <div class="team-highlight">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            <span data-es="Ayudante en programación, optimización y bases de datos." data-en="Teaching assistant in programming, optimization and databases.">Ayudante en programación, optimización y bases de datos.</span>
+          </div>
+        </div>
+        <div class="team-tags">
+          <span class="team-tag">Python</span>
+          <span class="team-tag">SQL</span>
+          <span class="team-tag">R</span>
+          <span class="team-tag">Power BI</span>
+          <span class="team-tag">Claude API</span>
+          <span class="team-tag">Ciberseguridad</span>
+        </div>
       </div>
+
       <div class="team-card reveal-slide-right reveal-delay-2">
-        <div class="avatar">F2</div>
-        <h3 data-es="Fundador" data-en="Founder">Fundador</h3>
-        <div class="role">Co-founder & Product</div>
-        <p data-es="ICI + Diploma TI, PUC. Estrategia de producto, diseño de soluciones y relación con clientes." data-en="ICI + TI Diploma, PUC. Product strategy, solution design, and client relationships.">ICI + Diploma TI, PUC. Estrategia de producto, diseño de soluciones y relación con clientes.</p>
+        <div class="team-card-header">
+          <div class="avatar">AN</div>
+          <div class="team-card-meta">
+            <h3>Álvaro Navarrete</h3>
+            <div class="role">Co-founder & Product</div>
+            <div class="edu">ICI + Magíster CS + Diploma TI · PUC</div>
+          </div>
+        </div>
+        <div class="team-divider"></div>
+        <div class="team-highlights">
+          <div class="team-highlight">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            <span data-es="Ciberinteligencia con IA para análisis de incidentes del sector financiero — CiberLab UC." data-en="AI-powered cyber intelligence for financial sector incident analysis — CiberLab UC.">Ciberinteligencia con IA para análisis de incidentes del sector financiero — CiberLab UC.</span>
+          </div>
+          <div class="team-highlight">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            <span data-es="Jefe de Tecnologías del Centro de Alumnos de Ingeniería UC." data-en="Head of Technology at the UC Engineering Student Center.">Jefe de Tecnologías del Centro de Alumnos de Ingeniería UC.</span>
+          </div>
+          <div class="team-highlight">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            <span data-es="Ayudante en programación, BI y estadísticas. Coordinó equipo de 124 tutores." data-en="Teaching assistant in programming, BI and statistics. Coordinated a team of 124 tutors.">Ayudante en programación, BI y estadísticas. Coordinó equipo de 124 tutores.</span>
+          </div>
+        </div>
+        <div class="team-tags">
+          <span class="team-tag">Python</span>
+          <span class="team-tag">R</span>
+          <span class="team-tag">Power BI</span>
+          <span class="team-tag">Tableau</span>
+          <span class="team-tag">Data Analysis</span>
+          <span class="team-tag">Liderazgo</span>
+        </div>
       </div>
     </div>
   </div>

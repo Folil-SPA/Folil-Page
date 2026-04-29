@@ -1,0 +1,81 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage[scaled=0.95]{helvet}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.2em}
+
+\titleformat{\section}{\large\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{0.55em}{0.25em}
+
+\newcommand{\cvheader}{
+    {\LARGE \textbf{Álvaro Israel Navarrete Paredes}}\\[0.35em]
+    Calera de Tango, Santiago de Chile \textbar\ +56 9 6426 4165 \textbar\ \href{mailto:asnavarrete@uc.cl}{asnavarrete@uc.cl}
+}
+
+\newcommand{\cventry}[4]{
+    \textbf{#1} \hfill #2\\
+    \textit{#3} \hfill \textit{#4}
+}
+
+\newcommand{\cvliststart}{\begin{itemize}[leftmargin=1.1em,itemsep=0.05em,topsep=0.05em]}
+\newcommand{\cvlistend}{\end{itemize}}
+
+\begin{document}
+
+\begin{center}
+\cvheader
+\end{center}
+
+\section{Perfil}
+Soy estudiante de Magíster en Ciencias de la Computación e Ingeniería Civil Industrial en la Pontificia Universidad Católica de Chile, con experiencia en docencia, liderazgo de equipos y análisis de datos.
+
+\section{Educación}
+\cventry{Magíster en Ciencias de la Computación}{Actualidad}{Pontificia Universidad Católica de Chile}{}
+
+\cventry{Ingeniería Civil Industrial}{2021 -- Actualidad}{Pontificia Universidad Católica de Chile}{Major en Investigación Operativa; Diploma en TI}
+
+\section{Experiencia laboral}
+\cventry{Jefe de Tecnologías, Centro de Alumnos de Ingeniería UC (CAi UC)}{Actualidad}{Escuela de Ingeniería UC}{}
+\cvliststart
+    \item Desarrollo infraestructura tecnológica y coordino eventos tecnológicos para estudiantes de la Escuela de Ingeniería.
+\cvlistend
+
+\cventry{Proyecto CiberLab UC}{09/2025 -- 04/2026}{CiberLab UC}{}
+\cvliststart
+    \item Participé en proyectos de ciberinteligencia con IA para el análisis y seguimiento de incidentes del sector financiero, elaborando reportería de fraude bancario para la Asociación de Bancos de Chile y apoyando la gestión de crisis de ciberseguridad.
+\cvlistend
+
+\cventry{Coordinador del Cuerpo de Tutores Ingeniería UC}{11/2023 -- 11/2024}{Pontificia Universidad Católica de Chile}{}
+\cvliststart
+    \item Lideré un equipo de 124 tutores y diseñé capacitaciones y actividades para la inserción universitaria de la generación 2024.
+\cvlistend
+
+\section{Experiencia académica}
+\cventry{Ayudante de Docencia en Programación y Herramientas Computacionales}{2023 -- Actualidad}{Pontificia Universidad Católica de Chile}{}
+\cvliststart
+    \item Apoyo docencia en Programación Avanzada, Programación para la ingeniería, Cálculo Multivariable, Probabilidades y Estadísticas, y Tecnologías para Inteligencia de Negocios.
+    \item Realizo ayudantías, sesiones de cátedra, corrección de tareas y evaluaciones, con uso de R, Wolfram Mathematica y herramientas de Business Intelligence.
+\cvlistend
+
+\section{Habilidades técnicas}
+\textbf{Programación y análisis de datos:} Python, Pandas, R y Wolfram Mathematica.\\
+\textbf{Business Intelligence y productividad:} Power BI, Tableau, APIs, Excel, Word y PowerPoint.\\
+\textbf{Diseño y fabricación:} Adobe Illustrator y manejo de maquinaria de imprenta y láser.
+
+\section{Idiomas}
+\textbf{Inglés:} nivel intermedio-alto (B2, TOEIC).
+
+\section{Información adicional}
+\textbf{Licencia de conducir:} clase B.
+
+\end{document}
