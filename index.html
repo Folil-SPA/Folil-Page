@@ -1295,10 +1295,14 @@ function setLang(lang) {
    WAITLIST FORM
 ══════════════════════════════════════════ */
 function submitWaitlist() {
-  const name = document.getElementById('f-name').value.trim();
-  const email = document.getElementById('f-email').value.trim();
+  const nameEl = document.getElementById('f-name');
+  const emailEl = document.getElementById('f-email');
+  const companyEl = document.getElementById('f-company');
+  const name = nameEl.value.trim();
+  const email = emailEl.value.trim();
+
   if (!name || !email) {
-    [document.getElementById('f-name'), document.getElementById('f-email')].forEach(inp => {
+    [nameEl, emailEl].forEach(inp => {
       if (!inp.value.trim()) {
         inp.style.borderColor = 'rgba(255,80,80,0.5)';
         inp.style.boxShadow = '0 0 0 3px rgba(255,80,80,0.08)';
@@ -1307,15 +1311,43 @@ function submitWaitlist() {
     });
     return;
   }
-  const saved = JSON.parse(localStorage.getItem('folil_waitlist') || '[]');
-  saved.push({ name, email, company: document.getElementById('f-company').value.trim(), ts: Date.now() });
-  localStorage.setItem('folil_waitlist', JSON.stringify(saved));
-  document.querySelector('.waitlist-form').style.display = 'none';
-  const success = document.getElementById('form-success');
-  success.style.display = 'block';
+
+  const btn = document.querySelector('.btn-submit');
   const lang = document.documentElement.getAttribute('data-lang') || 'es';
-  success.querySelector('.success-text').textContent = lang === 'en' ? "Done. We'll be in touch soon." : 'Listo. Te contactaremos pronto.';
-  success.querySelector('.success-sub').textContent = lang === 'en' ? 'We review every request personally.' : 'Revisamos cada solicitud personalmente.';
+  btn.disabled = true;
+  btn.textContent = lang === 'en' ? 'Sending…' : 'Enviando…';
+
+  fetch('https://formspree.io/f/xvzlpklg', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ name, email, company: companyEl.value.trim() })
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.ok) {
+      // Backup local
+      const saved = JSON.parse(localStorage.getItem('folil_waitlist') || '[]');
+      saved.push({ name, email, company: companyEl.value.trim(), ts: Date.now() });
+      localStorage.setItem('folil_waitlist', JSON.stringify(saved));
+
+      document.querySelector('.waitlist-form').style.display = 'none';
+      const success = document.getElementById('form-success');
+      success.style.display = 'block';
+      success.querySelector('.success-text').textContent = lang === 'en' ? "Done. We'll be in touch soon." : 'Listo. Te contactaremos pronto.';
+      success.querySelector('.success-sub').textContent = lang === 'en' ? 'We review every request personally.' : 'Revisamos cada solicitud personalmente.';
+    } else {
+      throw new Error('formspree error');
+    }
+  })
+  .catch(() => {
+    btn.disabled = false;
+    btn.textContent = lang === 'en' ? 'Try again' : 'Intentar de nuevo';
+    btn.style.background = 'rgba(255,80,80,0.8)';
+    setTimeout(() => {
+      btn.style.background = '';
+      btn.textContent = lang === 'en' ? 'Join the list →' : 'Unirme a la lista →';
+    }, 3000);
+  });
 }
 </script>
 </body>
