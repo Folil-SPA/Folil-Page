@@ -251,15 +251,14 @@
     .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 48px var(--accent-glow), 0 2px 20px rgba(79,255,176,0.25); }
     .btn-ghost {
       padding: 0.85rem 1.75rem;
-      background: rgba(255,255,255,0.04);
+      background: transparent;
       color: var(--muted);
       border: 1px solid var(--border);
       border-radius: 10px;
       font-family: var(--font-display);
       font-size: 0.9rem; font-weight: 500;
-       text-decoration: none;
+      text-decoration: none;
       transition: all 0.2s;
-      backdrop-filter: blur(8px);
     }
     .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.07); }
 
@@ -373,8 +372,7 @@
       margin-top: 3.5rem;
     }
     .value-card {
-      background: rgba(255,255,255,0.02);
-      backdrop-filter: blur(12px);
+      background: #111;
       padding: 2.5rem 2rem;
       transition: background 0.35s, box-shadow 0.35s;
       position: relative;
@@ -448,14 +446,13 @@
       gap: 1rem; margin-top: 3.5rem;
     }
     .service-card {
-      background: rgba(255,255,255,0.025);
-      backdrop-filter: blur(16px);
+      background: #0f0f0f;
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 16px;
       padding: 2rem;
-      transition: all 0.35s;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
       position: relative; overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+      cursor: pointer;
     }
     .service-card::after {
       content: '';
@@ -464,30 +461,69 @@
       opacity: 0; transition: opacity 0.35s;
     }
     .service-card:hover {
-      border-color: rgba(79,255,176,0.22);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(79,255,176,0.08), inset 0 1px 0 rgba(255,255,255,0.08);
+      border-color: rgba(79,255,176,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
     .service-card:hover::after { opacity: 1; }
+    .service-card.open {
+      border-color: rgba(79,255,176,0.25);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .service-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
     .service-icon {
-      width: 40px; height: 40px;
+      width: 40px; height: 40px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       color: var(--accent); margin-bottom: 1.25rem;
       transition: transform 0.3s;
     }
-    .service-card:hover .service-icon { transform: scale(1.15); }
+    .service-card:hover .service-icon { transform: scale(1.12); }
     .service-card h3 {
       font-family: var(--font-display);
       font-size: 1rem; font-weight: 600;
       margin-bottom: 0.5rem; letter-spacing: -0.02em;
     }
-    .service-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.75; }
+    .service-card > p { font-size: 0.875rem; color: var(--muted); line-height: 1.75; }
     .service-tag {
       display: inline-block; margin-top: 1rem;
       font-size: 0.7rem; font-family: var(--font-display);
       padding: 0.2rem 0.65rem;
       background: var(--accent-dim); color: var(--accent);
       border-radius: 4px; font-weight: 600; letter-spacing: 0.04em;
+    }
+    .service-chevron {
+      flex-shrink: 0; color: var(--muted);
+      transition: transform 0.3s, color 0.3s;
+      margin-top: 0.15rem;
+    }
+    .service-card.open .service-chevron { transform: rotate(180deg); color: var(--accent); }
+
+    /* Expandable detail panel */
+    .service-detail {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+      opacity: 0;
+    }
+    .service-card.open .service-detail { max-height: 400px; opacity: 1; }
+    .service-detail-inner {
+      border-top: 1px solid var(--border);
+      margin-top: 1.25rem; padding-top: 1.25rem;
+    }
+    .service-detail-title {
+      font-size: 0.7rem; font-family: var(--font-display);
+      font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.85rem;
+    }
+    .service-examples {
+      display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .service-example {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.825rem; color: var(--muted); line-height: 1.5;
+    }
+    .service-example::before {
+      content: '→';
+      color: var(--accent); flex-shrink: 0; font-size: 0.75rem; margin-top: 1px;
     }
 
     /* ── USE CASES ── */
@@ -498,8 +534,7 @@
       gap: 1rem; margin-top: 3.5rem;
     }
     .case-chip {
-      background: rgba(255,255,255,0.02);
-      backdrop-filter: blur(12px);
+      background: #111;
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 14px;
       padding: 1.75rem 1.25rem 1.5rem;
@@ -533,12 +568,10 @@
       gap: 1.5rem; margin-top: 3.5rem;
     }
     .team-card {
-      background: rgba(255,255,255,0.025);
-      backdrop-filter: blur(16px);
+      background: #0f0f0f;
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 18px; padding: 2rem 2.25rem;
-      transition: all 0.35s;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05);
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
       display: flex; flex-direction: column; gap: 1.25rem;
     }
     .team-card:hover {
@@ -878,50 +911,109 @@
     <span class="section-tag reveal" data-es="Servicios" data-en="Services">Servicios</span>
     <h2 class="reveal" data-es="Lo que construimos<br>contigo" data-en="What we build<br>with you">Lo que construimos<br>contigo</h2>
     <div class="services-grid">
-      <div class="service-card reveal-scale reveal-delay-1">
-        <div class="service-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 8V4H8"/><rect x="8" y="2" width="8" height="4" rx="1"/>
-            <path d="M3 14.5c0-2.76 2.24-5 5-5h8c2.76 0 5 2.24 5 5v0c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5z"/>
-            <path d="M8 14h.01M12 14h.01M16 14h.01"/>
-          </svg>
+      <div class="service-card reveal-scale reveal-delay-1" onclick="toggleService(this)">
+        <div class="service-card-top">
+          <div class="service-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 8V4H8"/><rect x="8" y="2" width="8" height="4" rx="1"/>
+              <path d="M3 14.5c0-2.76 2.24-5 5-5h8c2.76 0 5 2.24 5 5v0c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5z"/>
+              <path d="M8 14h.01M12 14h.01M16 14h.01"/>
+            </svg>
+          </div>
+          <svg class="service-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <h3 data-es="Agentes IA & Productos custom" data-en="AI Agents & Custom products">Agentes IA & Productos custom</h3>
         <p data-es="Diseñamos e implementamos soluciones IA a medida: desde agentes que automatizan tareas hasta sistemas que procesan y analizan información de tu negocio." data-en="We design and implement custom AI solutions: from agents that automate tasks to systems that process and analyze your business data.">Diseñamos e implementamos soluciones IA a medida: desde agentes que automatizan tareas hasta sistemas que procesan y analizan información de tu negocio.</p>
         <span class="service-tag">AI Engineering</span>
+        <div class="service-detail">
+          <div class="service-detail-inner">
+            <div class="service-detail-title" data-es="Ejemplos de lo que podemos construir" data-en="Examples of what we can build">Ejemplos de lo que podemos construir</div>
+            <div class="service-examples">
+              <div class="service-example" data-es="Chatbot con acceso a documentos internos de tu empresa (RAG)" data-en="Chatbot with access to your company's internal documents (RAG)">Chatbot con acceso a documentos internos de tu empresa (RAG)</div>
+              <div class="service-example" data-es="Agente que lee emails, clasifica solicitudes y genera respuestas borradores" data-en="Agent that reads emails, classifies requests and generates draft responses">Agente que lee emails, clasifica solicitudes y genera respuestas borradores</div>
+              <div class="service-example" data-es="Sistema de extracción y resumen automático de información desde PDFs o formularios" data-en="Automatic extraction and summarization system from PDFs or forms">Sistema de extracción y resumen automático de información desde PDFs o formularios</div>
+              <div class="service-example" data-es="Pipeline de análisis de datos con generación automática de reportes" data-en="Data analysis pipeline with automatic report generation">Pipeline de análisis de datos con generación automática de reportes</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="service-card reveal-scale reveal-delay-2">
-        <div class="service-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
-          </svg>
+
+      <div class="service-card reveal-scale reveal-delay-2" onclick="toggleService(this)">
+        <div class="service-card-top">
+          <div class="service-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+              <path d="M2 17l10 5 10-5"/>
+              <path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <svg class="service-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <h3 data-es="Automatización de procesos" data-en="Process automation">Automatización de procesos</h3>
         <p data-es="Analizamos tu operación para identificar dónde la automatización genera más impacto y construimos las soluciones técnicas para lograrlo." data-en="We analyze your operation to identify where automation generates the most impact and build the technical solutions to achieve it.">Analizamos tu operación para identificar dónde la automatización genera más impacto y construimos las soluciones técnicas para lograrlo.</p>
         <span class="service-tag">Automation</span>
+        <div class="service-detail">
+          <div class="service-detail-inner">
+            <div class="service-detail-title" data-es="Ejemplos de lo que podemos construir" data-en="Examples of what we can build">Ejemplos de lo que podemos construir</div>
+            <div class="service-examples">
+              <div class="service-example" data-es="Script que genera reportes semanales automáticos desde tus datos (Excel, SQL, APIs)" data-en="Script that automatically generates weekly reports from your data (Excel, SQL, APIs)">Script que genera reportes semanales automáticos desde tus datos (Excel, SQL, APIs)</div>
+              <div class="service-example" data-es="Flujo que extrae datos de un formulario web y los registra en una base de datos o planilla" data-en="Flow that extracts data from a web form and records it in a database or spreadsheet">Flujo que extrae datos de un formulario web y los registra en una base de datos o planilla</div>
+              <div class="service-example" data-es="Automatización de tareas repetitivas de backoffice con Python o n8n" data-en="Automation of repetitive back-office tasks with Python or n8n">Automatización de tareas repetitivas de backoffice con Python o n8n</div>
+              <div class="service-example" data-es="Dashboard en tiempo real conectado a tus fuentes de datos actuales" data-en="Real-time dashboard connected to your current data sources">Dashboard en tiempo real conectado a tus fuentes de datos actuales</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="service-card reveal-scale reveal-delay-3">
-        <div class="service-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-          </svg>
+
+      <div class="service-card reveal-scale reveal-delay-3" onclick="toggleService(this)">
+        <div class="service-card-top">
+          <div class="service-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+            </svg>
+          </div>
+          <svg class="service-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <h3 data-es="Prototipado rápido (MVP)" data-en="Fast prototyping (MVP)">Prototipado rápido (MVP)</h3>
         <p data-es="¿Tienes una idea? Te ayudamos a definir el alcance mínimo para validarla y construimos ese primer prototipo funcional contigo." data-en="Have an idea? We help you define the minimum scope to validate it and build that first functional prototype with you.">¿Tienes una idea? Te ayudamos a definir el alcance mínimo para validarla y construimos ese primer prototipo funcional contigo.</p>
         <span class="service-tag">MVP</span>
-      </div>
-      <div class="service-card reveal-scale reveal-delay-4">
-        <div class="service-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-          </svg>
+        <div class="service-detail">
+          <div class="service-detail-inner">
+            <div class="service-detail-title" data-es="Ejemplos de lo que podemos construir" data-en="Examples of what we can build">Ejemplos de lo que podemos construir</div>
+            <div class="service-examples">
+              <div class="service-example" data-es="Aplicación web simple con autenticación, base de datos y lógica de negocio básica" data-en="Simple web application with authentication, database and basic business logic">Aplicación web simple con autenticación, base de datos y lógica de negocio básica</div>
+              <div class="service-example" data-es="Prototipo de producto con IA integrada para validar con primeros usuarios" data-en="Product prototype with integrated AI to validate with first users">Prototipo de producto con IA integrada para validar con primeros usuarios</div>
+              <div class="service-example" data-es="Landing page + formulario de captura conectado a notificaciones automáticas" data-en="Landing page + capture form connected to automatic notifications">Landing page + formulario de captura conectado a notificaciones automáticas</div>
+              <div class="service-example" data-es="POC técnico para demostrar viabilidad de una idea ante inversores o stakeholders" data-en="Technical POC to demonstrate the viability of an idea to investors or stakeholders">POC técnico para demostrar viabilidad de una idea ante inversores o stakeholders</div>
+            </div>
+          </div>
         </div>
-        <h3 data-es="Consultoría estratégica IA" data-en="AI strategic consulting">Consultoría estratégica IA</h3>
+      </div>
+
+      <div class="service-card reveal-scale reveal-delay-4" onclick="toggleService(this)">
+        <div class="service-card-top">
+          <div class="service-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <svg class="service-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <h3 data-es="Diagnóstico IA" data-en="AI Diagnosis">Diagnóstico IA</h3>
         <p data-es="Conversamos sobre tu negocio, mapeamos dónde la IA puede tener impacto real y te entregamos un diagnóstico honesto de por dónde empezar." data-en="We talk about your business, map where AI can have real impact, and give you an honest diagnosis of where to start.">Conversamos sobre tu negocio, mapeamos dónde la IA puede tener impacto real y te entregamos un diagnóstico honesto de por dónde empezar.</p>
         <span class="service-tag">Strategy</span>
+        <div class="service-detail">
+          <div class="service-detail-inner">
+            <div class="service-detail-title" data-es="Qué incluye el diagnóstico" data-en="What the diagnosis includes">Qué incluye el diagnóstico</div>
+            <div class="service-examples">
+              <div class="service-example" data-es="Sesión de 1–2 horas para entender tu operación y procesos actuales" data-en="1–2 hour session to understand your operation and current processes">Sesión de 1–2 horas para entender tu operación y procesos actuales</div>
+              <div class="service-example" data-es="Mapa de los 3–5 procesos con mayor potencial de automatización o mejora con IA" data-en="Map of the 3–5 processes with the highest potential for automation or AI improvement">Mapa de los 3–5 procesos con mayor potencial de automatización o mejora con IA</div>
+              <div class="service-example" data-es="Recomendación de por dónde empezar según esfuerzo e impacto estimados" data-en="Recommendation of where to start based on estimated effort and impact">Recomendación de por dónde empezar según esfuerzo e impacto estimados</div>
+              <div class="service-example" data-es="Documento de diagnóstico entregable, sin compromiso de contratación" data-en="Deliverable diagnosis document, with no commitment to hire">Documento de diagnóstico entregable, sin compromiso de contratación</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1363,6 +1455,15 @@ function setLang(lang) {
     const txt = el.getAttribute('data-' + lang);
     if (txt !== null) el.innerHTML = txt;
   });
+}
+
+/* ══════════════════════════════════════════
+   SERVICE CARDS TOGGLE
+══════════════════════════════════════════ */
+function toggleService(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.service-card.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
 }
 
 /* ══════════════════════════════════════════
