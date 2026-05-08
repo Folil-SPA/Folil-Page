@@ -1718,42 +1718,25 @@ function submitWaitlist() {
     return;
   }
 
-  const btn = document.querySelector('.btn-submit');
   const lang = document.documentElement.getAttribute('data-lang') || 'es';
-  btn.disabled = true;
-  btn.textContent = lang === 'en' ? 'Sending…' : 'Enviando…';
 
-  fetch('https://formspree.io/f/xvzlpklg', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ name, email, company: companyEl.value.trim() })
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (data.ok) {
-      // Backup local
-      const saved = JSON.parse(localStorage.getItem('folil_waitlist') || '[]');
-      saved.push({ name, email, company: companyEl.value.trim(), ts: Date.now() });
-      localStorage.setItem('folil_waitlist', JSON.stringify(saved));
+  // Construir mailto con los datos del formulario
+  const subject = encodeURIComponent(lang === 'en'
+    ? `New contact from ${name}${company ? ' (' + company + ')' : ''}`
+    : `Nuevo contacto de ${name}${company ? ' (' + company + ')' : ''}`);
+  const body = encodeURIComponent(
+    (lang === 'en'
+      ? `Name: ${name}\nEmail: ${email}\nCompany: ${company || '—'}`
+      : `Nombre: ${name}\nEmail: ${email}\nEmpresa: ${company || '—'}`)
+  );
+  window.location.href = `mailto:psacevedo@uc.cl?subject=${subject}&body=${body}`;
 
-      document.querySelector('.waitlist-form').style.display = 'none';
-      const success = document.getElementById('form-success');
-      success.style.display = 'block';
-      success.querySelector('.success-text').textContent = lang === 'en' ? "Done. We'll be in touch soon." : 'Listo. Te contactaremos pronto.';
-      success.querySelector('.success-sub').textContent = lang === 'en' ? 'We review every request personally.' : 'Revisamos cada solicitud personalmente.';
-    } else {
-      throw new Error('formspree error');
-    }
-  })
-  .catch(() => {
-    btn.disabled = false;
-    btn.textContent = lang === 'en' ? 'Try again' : 'Intentar de nuevo';
-    btn.style.background = 'rgba(255,80,80,0.8)';
-    setTimeout(() => {
-      btn.style.background = '';
-      btn.textContent = lang === 'en' ? 'Join the list →' : 'Unirme a la lista →';
-    }, 3000);
-  });
+  // Mostrar mensaje de éxito
+  document.querySelector('.waitlist-form').style.display = 'none';
+  const success = document.getElementById('form-success');
+  success.style.display = 'block';
+  success.querySelector('.success-text').textContent = lang === 'en' ? "Opening your email app…" : 'Abriendo tu cliente de correo…';
+  success.querySelector('.success-sub').textContent = lang === 'en' ? 'We review every request personally.' : 'Revisamos cada solicitud personalmente.';
 }
 </script>
 </body>
