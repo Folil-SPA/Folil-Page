@@ -5,22 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Folil Labs — La raíz de tus productos IA</title>
   <meta name="description" content="Motor de empresas early adopters que buscan lanzar productos IA en tiempo récord a costo reducido." />
+  <meta property="og:title" content="Folil Labs — La raíz de tus productos IA" />
+  <meta property="og:description" content="Motor de empresas early adopters que buscan lanzar productos IA en tiempo récord a costo reducido." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://folillabs.com" />
+  <meta property="og:locale" content="es_CL" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M7 21C9 17 10 14 11.5 12C13 10 11 6.5 10.5 5' stroke='%23e8903c' stroke-width='2' stroke-linecap='round' fill='none'/><path d='M17 21C15 17 14 14 12.5 12C11 10 13 6.5 13.5 5' stroke='%237fb069' stroke-width='2' stroke-linecap='round' fill='none'/><circle cx='12' cy='3.5' r='1.5' fill='%23e8903c'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #080808;
-      --surface: #0f0f0f;
-      --surface2: #161616;
+      --bg: #0a0a07;
+      --surface: #131310;
+      --surface2: #1a1a16;
       --border: rgba(255,255,255,0.07);
-      --text: #f0f0f0;
+      --text: #f5f0e8;
       --muted: #666;
       --subtle: #333;
-      --accent: #4fffb0;
-      --accent2: #00d4ff;
-      --accent-dim: rgba(79,255,176,0.10);
-      --accent-glow: rgba(79,255,176,0.22);
+      --accent: #e8903c;
+      --accent2: #7fb069;
+      --accent-dim: rgba(232,144,60,0.10);
+      --accent-glow: rgba(232,144,60,0.22);
       --font-display: 'Space Grotesk', sans-serif;
       --font-body: 'DM Sans', sans-serif;
     }
@@ -54,13 +60,13 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 clamp(1.5rem, 5vw, 4rem);
       height: 64px;
-      background: rgba(8,8,8,0.55);
+      background: rgba(10,10,7,0.55);
       backdrop-filter: blur(40px) saturate(180%);
       -webkit-backdrop-filter: blur(40px) saturate(180%);
       border-bottom: 1px solid rgba(255,255,255,0.05);
       transition: background 0.4s;
     }
-    nav.scrolled { background: rgba(8,8,8,0.85); }
+    nav.scrolled { background: rgba(10,10,7,0.85); }
     .logo {
       display: flex; align-items: center; gap: 10px;
       font-family: var(--font-display);
@@ -98,6 +104,38 @@
     }
     .btn-cta:hover { opacity: 0.88; transform: translateY(-1px); }
 
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none; flex-direction: column; gap: 4px;
+      background: none; border: none; cursor: pointer;
+      padding: 4px; z-index: 101;
+    }
+    .hamburger span {
+      display: block; width: 20px; height: 2px;
+      background: var(--text); transition: all 0.3s; border-radius: 1px;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 4px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -4px); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,7,0.97); backdrop-filter: blur(20px);
+      z-index: 99;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 1.75rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: auto; }
+    .mobile-menu a {
+      font-family: var(--font-display); font-size: 1.3rem;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--text); }
+
     /* ── HERO ── */
     #hero {
       position: relative;
@@ -132,19 +170,19 @@
     }
     .hero-orb-1 {
       width: 500px; height: 500px;
-      background: radial-gradient(circle, rgba(79,255,176,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(232,144,60,0.08) 0%, transparent 70%);
       top: -100px; right: 5%;
       animation: orbFloat1 12s ease-in-out infinite;
     }
     .hero-orb-2 {
       width: 350px; height: 350px;
-      background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(127,176,105,0.06) 0%, transparent 70%);
       bottom: 10%; left: -5%;
       animation: orbFloat2 16s ease-in-out infinite;
     }
     .hero-orb-3 {
       width: 250px; height: 250px;
-      background: radial-gradient(circle, rgba(79,255,176,0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(232,144,60,0.05) 0%, transparent 70%);
       top: 40%; left: 40%;
       animation: orbFloat3 10s ease-in-out infinite;
     }
@@ -170,10 +208,10 @@
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 0.3rem 0.9rem;
-      border: 1px solid rgba(79,255,176,0.2);
+      border: 1px solid rgba(232,144,60,0.2);
       border-radius: 999px;
       font-size: 0.78rem; color: var(--muted);
-      background: rgba(79,255,176,0.04);
+      background: rgba(232,144,60,0.04);
       backdrop-filter: blur(12px);
       margin-bottom: 1.75rem;
       width: fit-content;
@@ -237,7 +275,7 @@
       font-size: 0.9rem; font-weight: 700;
        text-decoration: none;
       transition: all 0.2s;
-      box-shadow: 0 0 40px var(--accent-glow), 0 2px 20px rgba(79,255,176,0.15);
+      box-shadow: 0 0 40px var(--accent-glow), 0 2px 20px rgba(232,144,60,0.15);
       overflow: hidden;
     }
     .btn-primary::before {
@@ -248,7 +286,7 @@
       animation: btnShine 2.8s ease-in-out infinite;
     }
     @keyframes btnShine { 60%, 100% { transform: translateX(120%); } }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 48px var(--accent-glow), 0 2px 20px rgba(79,255,176,0.25); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 48px var(--accent-glow), 0 2px 20px rgba(232,144,60,0.25); }
     .btn-ghost {
       padding: 0.85rem 1.75rem;
       background: transparent;
@@ -278,7 +316,7 @@
     }
     .hero-visual-glow {
       position: absolute; inset: -60px;
-      background: radial-gradient(circle at center, rgba(79,255,176,0.07) 0%, rgba(0,212,255,0.03) 45%, transparent 70%);
+      background: radial-gradient(circle at center, rgba(232,144,60,0.07) 0%, rgba(127,176,105,0.03) 45%, transparent 70%);
       pointer-events: none;
       animation: glowPulse 5s ease-in-out infinite;
     }
@@ -298,7 +336,7 @@
     .stats-bar::before {
       content: '';
       position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(79,255,176,0.015), transparent);
+      background: linear-gradient(90deg, transparent, rgba(232,144,60,0.015), transparent);
       animation: statsSheen 6s ease-in-out infinite;
     }
     @keyframes statsSheen {
@@ -326,7 +364,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 0 12px rgba(79,255,176,0.3));
+      filter: drop-shadow(0 0 12px rgba(232,144,60,0.3));
     }
     .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.4; }
 
@@ -372,7 +410,7 @@
       margin-top: 3.5rem;
     }
     .value-card {
-      background: #111;
+      background: #141410;
       padding: 2.5rem 2rem;
       transition: background 0.35s, box-shadow 0.35s;
       position: relative;
@@ -381,7 +419,7 @@
     .value-card::after {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse at top left, rgba(79,255,176,0.06), transparent 60%);
+      background: radial-gradient(ellipse at top left, rgba(232,144,60,0.06), transparent 60%);
       opacity: 0; transition: opacity 0.35s;
     }
     .value-card:hover { background: rgba(255,255,255,0.04); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08); }
@@ -390,13 +428,13 @@
       width: 48px; height: 48px;
       display: flex; align-items: center; justify-content: center;
       background: var(--accent-dim);
-      border: 1px solid rgba(79,255,176,0.18);
+      border: 1px solid rgba(232,144,60,0.18);
       border-radius: 12px; margin-bottom: 1.5rem;
       color: var(--accent);
-      box-shadow: 0 0 24px rgba(79,255,176,0.08);
+      box-shadow: 0 0 24px rgba(232,144,60,0.08);
       transition: box-shadow 0.3s, transform 0.3s;
     }
-    .value-card:hover .value-icon { box-shadow: 0 0 32px rgba(79,255,176,0.2); transform: scale(1.08); }
+    .value-card:hover .value-icon { box-shadow: 0 0 32px rgba(232,144,60,0.2); transform: scale(1.08); }
     .value-card h3 {
       font-family: var(--font-display);
       font-size: 1.05rem; font-weight: 600;
@@ -417,7 +455,7 @@
       position: relative;
       transition: background 0.3s;
     }
-    .step:hover { background: rgba(79,255,176,0.02); }
+    .step:hover { background: rgba(232,144,60,0.02); }
     .step:last-child { border-right: none; }
     .step-num {
       font-family: var(--font-display);
@@ -430,7 +468,7 @@
     .step-num::after {
       content: '';
       flex: 1; height: 1px;
-      background: linear-gradient(to right, rgba(79,255,176,0.3), transparent);
+      background: linear-gradient(to right, rgba(232,144,60,0.3), transparent);
     }
     .step h3 {
       font-family: var(--font-display);
@@ -446,7 +484,7 @@
       gap: 1rem; margin-top: 3.5rem;
     }
     .service-card {
-      background: #0f0f0f;
+      background: #131310;
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 16px;
       padding: 2rem;
@@ -457,17 +495,17 @@
     .service-card::after {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(circle at top left, rgba(79,255,176,0.06), transparent 60%);
+      background: radial-gradient(circle at top left, rgba(232,144,60,0.06), transparent 60%);
       opacity: 0; transition: opacity 0.35s;
     }
     .service-card:hover {
-      border-color: rgba(79,255,176,0.2);
+      border-color: rgba(232,144,60,0.2);
       transform: translateY(-2px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
     .service-card:hover::after { opacity: 1; }
     .service-card.open {
-      border-color: rgba(79,255,176,0.25);
+      border-color: rgba(232,144,60,0.25);
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
     .service-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
@@ -528,13 +566,83 @@
 
     /* ── USE CASES ── */
     #usecases { background: var(--surface); }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--surface); }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1rem; margin-top: 3.5rem;
+    }
+    .project-card {
+      background: #141410;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .project-card:hover {
+      border-color: rgba(232,144,60,0.22);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .project-org {
+      font-size: 0.7rem;
+      font-family: var(--font-display);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .project-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem; font-weight: 600;
+      margin-bottom: 0.6rem; letter-spacing: -0.02em;
+    }
+    .project-card p {
+      font-size: 0.875rem; color: var(--muted);
+      line-height: 1.75; margin-bottom: 1rem;
+    }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .project-tags span {
+      font-size: 0.7rem; font-family: var(--font-display); font-weight: 500;
+      padding: 0.2rem 0.6rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 4px; color: var(--muted);
+    }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: var(--bg);
+      text-align: center;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(232,144,60,0.04), transparent);
+      pointer-events: none;
+    }
+    .cta-banner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      margin-bottom: 0.75rem;
+    }
+    .cta-banner p {
+      font-size: 0.95rem; color: var(--muted);
+      max-width: 450px; margin: 0 auto 1.75rem;
+      line-height: 1.7;
+    }
     .cases-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 1rem; margin-top: 3.5rem;
     }
     .case-chip {
-      background: #111;
+      background: #141410;
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 14px;
       padding: 1.75rem 1.25rem 1.5rem;
@@ -542,8 +650,8 @@
       transition: all 0.3s; cursor: default;
     }
     .case-chip:hover {
-      border-color: rgba(79,255,176,0.3);
-      background: rgba(79,255,176,0.05);
+      border-color: rgba(232,144,60,0.3);
+      background: rgba(232,144,60,0.05);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
@@ -568,27 +676,27 @@
       gap: 1.5rem; margin-top: 3.5rem;
     }
     .team-card {
-      background: #0f0f0f;
+      background: #131310;
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 18px; padding: 2rem 2.25rem;
       transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
       display: flex; flex-direction: column; gap: 1.25rem;
     }
     .team-card:hover {
-      border-color: rgba(79,255,176,0.22);
+      border-color: rgba(232,144,60,0.22);
       transform: translateY(-2px);
       box-shadow: 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
     }
     .team-card-header { display: flex; align-items: center; gap: 1rem; }
     .avatar {
       width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(79,255,176,0.15), rgba(0,212,255,0.1));
-      border: 1px solid rgba(79,255,176,0.3);
+      background: linear-gradient(135deg, rgba(232,144,60,0.15), rgba(127,176,105,0.1));
+      border: 1px solid rgba(232,144,60,0.3);
       display: flex; align-items: center; justify-content: center;
       font-family: var(--font-display);
       font-size: 1rem; font-weight: 700;
       color: var(--accent);
-      box-shadow: 0 0 20px rgba(79,255,176,0.1);
+      box-shadow: 0 0 20px rgba(232,144,60,0.1);
     }
     .team-card-meta h3 {
       font-family: var(--font-display);
@@ -622,7 +730,7 @@
     #waitlist::before {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(79,255,176,0.04), transparent);
+      background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(232,144,60,0.04), transparent);
       pointer-events: none;
     }
     #waitlist .container { max-width: 580px; }
@@ -642,8 +750,8 @@
     }
     .field input::placeholder { color: var(--subtle); }
     .field input:focus {
-      border-color: rgba(79,255,176,0.4);
-      box-shadow: 0 0 0 3px rgba(79,255,176,0.08), 0 0 20px rgba(79,255,176,0.08);
+      border-color: rgba(232,144,60,0.4);
+      box-shadow: 0 0 0 3px rgba(232,144,60,0.08), 0 0 20px rgba(232,144,60,0.08);
     }
     .btn-submit {
       position: relative;
@@ -653,7 +761,7 @@
       font-family: var(--font-display);
       font-size: 0.95rem; font-weight: 700;
        transition: all 0.25s;
-      box-shadow: 0 0 40px var(--accent-glow), 0 2px 20px rgba(79,255,176,0.15);
+      box-shadow: 0 0 40px var(--accent-glow), 0 2px 20px rgba(232,144,60,0.15);
       overflow: hidden;
     }
     .btn-submit::before {
@@ -667,8 +775,8 @@
     .form-success {
       display: none; margin-top: 1rem;
       padding: 1.75rem 2rem;
-      background: rgba(79,255,176,0.06);
-      border: 1px solid rgba(79,255,176,0.2);
+      background: rgba(232,144,60,0.06);
+      border: 1px solid rgba(232,144,60,0.2);
       border-radius: 14px;
       animation: successPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
@@ -750,11 +858,12 @@
       #hero { grid-template-columns: 1fr; text-align: center; padding-top: 100px; padding-bottom: 3rem; }
       .hero-content { align-items: center; }
       .hero-sub { max-width: 100%; }
-      .hero-globe { order: -1; }
-      .hero-visual { max-width: 340px; }
+      .hero-visual { order: -1; max-width: 340px; }
     }
     @media (max-width: 768px) {
       .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
       .process-steps { grid-template-columns: 1fr; }
       .step { border-right: none; border-bottom: 1px solid var(--border); }
       .step:last-child { border-bottom: none; }
@@ -764,6 +873,7 @@
       .stats-inner { flex-direction: column; }
       .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 1.75rem 1rem; }
       .stat:last-child { border-bottom: none; }
+      .projects-grid { grid-template-columns: 1fr; }
       .value-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -775,12 +885,10 @@
 <!-- NAV -->
 <nav id="main-nav">
   <a href="#" class="logo">
-    <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-      <line x1="11" y1="1.5" x2="11" y2="11" stroke="#4fffb0" stroke-width="2" stroke-linecap="round"/>
-      <line x1="11" y1="11" x2="4.5" y2="19.5" stroke="#4fffb0" stroke-width="2" stroke-linecap="round"/>
-      <line x1="11" y1="11" x2="17.5" y2="19.5" stroke="#4fffb0" stroke-width="2" stroke-linecap="round"/>
-      <line x1="11" y1="7.5" x2="7" y2="13.5" stroke="#4fffb0" stroke-width="1.3" stroke-linecap="round" opacity="0.5"/>
-      <line x1="11" y1="7.5" x2="15" y2="13.5" stroke="#4fffb0" stroke-width="1.3" stroke-linecap="round" opacity="0.5"/>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M7 21C9 17 10 14 11.5 12C13 10 11 6.5 10.5 5" stroke="#e8903c" stroke-width="2" stroke-linecap="round"/>
+      <path d="M17 21C15 17 14 14 12.5 12C11 10 13 6.5 13.5 5" stroke="#7fb069" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="3.5" r="1.5" fill="#e8903c"/>
     </svg>
     folil<span class="labs">labs</span>
   </a>
@@ -788,6 +896,7 @@
     <ul class="nav-links">
       <li><a href="#value" data-es="¿Qué hacemos?" data-en="What we do">¿Qué hacemos?</a></li>
       <li><a href="#process" data-es="Proceso" data-en="Process">Proceso</a></li>
+      <li><a href="#projects" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
       <li><a href="#team" data-es="Equipo" data-en="Team">Equipo</a></li>
     </ul>
     <div class="lang-toggle">
@@ -795,9 +904,21 @@
       <button id="btn-en" onclick="setLang('en')">EN</button>
     </div>
     <a href="#waitlist" class="btn-cta" data-es="Lista de espera" data-en="Join waitlist">Lista de espera</a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menú"><span></span><span></span><span></span></button>
   </div>
 </nav>
 
+<div class="mobile-menu">
+  <a href="#value" data-es="¿Qué hacemos?" data-en="What we do">¿Qué hacemos?</a>
+  <a href="#process" data-es="Proceso" data-en="Process">Proceso</a>
+  <a href="#projects" data-es="Proyectos" data-en="Projects">Proyectos</a>
+  <a href="#services" data-es="Servicios" data-en="Services">Servicios</a>
+  <a href="#usecases" data-es="Industrias" data-en="Industries">Industrias</a>
+  <a href="#team" data-es="Equipo" data-en="Team">Equipo</a>
+  <a href="#waitlist" data-es="Lista de espera" data-en="Waitlist" style="color:var(--accent);">Lista de espera</a>
+</div>
+
+<main>
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg-grid"></div>
@@ -834,7 +955,7 @@
       <span class="stat-label" data-es="Sin estructura de consultora — precio justo por proyecto" data-en="No consulting structure — fair project pricing">Sin estructura de consultora — precio justo por proyecto</span>
     </div>
     <div class="stat reveal reveal-delay-2">
-      <span class="stat-num" style="-webkit-text-fill-color:inherit;background:none;font-size:clamp(1rem,2.2vw,1.4rem);letter-spacing:0.01em;">IA-first</span>
+      <span class="stat-num" data-es="IA-first" data-en="IA-first">IA-first</span>
       <span class="stat-label" data-es="No adaptamos tecnología antigua — construimos con IA desde el núcleo" data-en="We don't adapt legacy tech — we build with AI at the core">No adaptamos tecnología antigua — construimos con IA desde el núcleo</span>
     </div>
   </div>
@@ -905,6 +1026,49 @@
   </div>
 </section>
 
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <span class="section-tag reveal" data-es="Track record" data-en="Track record">Track record</span>
+    <h2 class="reveal" data-es="Lo que hemos<br>construido" data-en="What we've<br>built">Lo que hemos<br>construido</h2>
+    <p class="section-sub reveal" data-es="Proyectos reales para instituciones reales, no ejercicios académicos." data-en="Real projects for real institutions, not academic exercises.">Proyectos reales para instituciones reales, no ejercicios académicos.</p>
+    <div class="projects-grid">
+      <div class="project-card reveal-slide-left">
+        <div class="project-org">Asociación de Bancos · CiberLab UC</div>
+        <h3>Plataforma de ciberinteligencia IA</h3>
+        <p>Plataforma de análisis y gestión de incidentes de ciberseguridad para el sector financiero chileno, con IA para clasificación y reportería automática.</p>
+        <div class="project-tags">
+          <span>Python</span><span>IA</span><span>Ciberseguridad</span><span>Automatización</span>
+        </div>
+      </div>
+      <div class="project-card reveal-slide-right">
+        <div class="project-org">Ejército de Chile · CiberLab UC</div>
+        <h3>Simulador de ciberdefensa</h3>
+        <p>Desarrollo de simulador para protección de infraestructuras críticas con clasificación de malware mediante inteligencia artificial.</p>
+        <div class="project-tags">
+          <span>Python</span><span>Machine Learning</span><span>Ciberseguridad</span><span>Simulación</span>
+        </div>
+      </div>
+      <div class="project-card reveal-slide-left">
+        <div class="project-org">Novo Nordisk</div>
+        <h3>Agentes IA en salud</h3>
+        <p>Automatización de procesos de experiencia del paciente usando agentes de IA, análisis de datos y optimización de recorridos clínicos.</p>
+        <div class="project-tags">
+          <span>Python</span><span>IA Agents</span><span>Salud</span><span>Data Analysis</span>
+        </div>
+      </div>
+      <div class="project-card reveal-slide-right">
+        <div class="project-org">CAi UC</div>
+        <h3>Infraestructura tecnológica estudiantil</h3>
+        <p>Desarrollo y coordinación de infraestructura tecnológica para eventos y servicios del Centro de Alumnos de Ingeniería UC.</p>
+        <div class="project-tags">
+          <span>Infraestructura</span><span>Liderazgo</span><span>Gestión</span><span>Eventos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SERVICES -->
 <section id="services">
   <div class="container">
@@ -915,24 +1079,22 @@
         <div class="service-card-top">
           <div class="service-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 8V4H8"/><rect x="8" y="2" width="8" height="4" rx="1"/>
-              <path d="M3 14.5c0-2.76 2.24-5 5-5h8c2.76 0 5 2.24 5 5v0c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5z"/>
-              <path d="M8 14h.01M12 14h.01M16 14h.01"/>
+              <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
           </div>
           <svg class="service-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <h3 data-es="Agentes IA & Productos custom" data-en="AI Agents & Custom products">Agentes IA & Productos custom</h3>
-        <p data-es="Diseñamos e implementamos soluciones IA a medida: desde agentes que automatizan tareas hasta sistemas que procesan y analizan información de tu negocio." data-en="We design and implement custom AI solutions: from agents that automate tasks to systems that process and analyze your business data.">Diseñamos e implementamos soluciones IA a medida: desde agentes que automatizan tareas hasta sistemas que procesan y analizan información de tu negocio.</p>
-        <span class="service-tag">AI Engineering</span>
+        <h3 data-es="Diagnóstico IA" data-en="AI Diagnosis">Diagnóstico IA</h3>
+        <p data-es="Conversamos sobre tu negocio, mapeamos dónde la IA puede tener impacto real y te entregamos un diagnóstico honesto de por dónde empezar." data-en="We talk about your business, map where AI can have real impact, and give you an honest diagnosis of where to start.">Conversamos sobre tu negocio, mapeamos dónde la IA puede tener impacto real y te entregamos un diagnóstico honesto de por dónde empezar.</p>
+        <span class="service-tag">Strategy</span>
         <div class="service-detail">
           <div class="service-detail-inner">
-            <div class="service-detail-title" data-es="Ejemplos de lo que podemos construir" data-en="Examples of what we can build">Ejemplos de lo que podemos construir</div>
+            <div class="service-detail-title" data-es="Qué incluye el diagnóstico" data-en="What the diagnosis includes">Qué incluye el diagnóstico</div>
             <div class="service-examples">
-              <div class="service-example" data-es="Chatbot con acceso a documentos internos de tu empresa (RAG)" data-en="Chatbot with access to your company's internal documents (RAG)">Chatbot con acceso a documentos internos de tu empresa (RAG)</div>
-              <div class="service-example" data-es="Agente que lee emails, clasifica solicitudes y genera respuestas borradores" data-en="Agent that reads emails, classifies requests and generates draft responses">Agente que lee emails, clasifica solicitudes y genera respuestas borradores</div>
-              <div class="service-example" data-es="Sistema de extracción y resumen automático de información desde PDFs o formularios" data-en="Automatic extraction and summarization system from PDFs or forms">Sistema de extracción y resumen automático de información desde PDFs o formularios</div>
-              <div class="service-example" data-es="Pipeline de análisis de datos con generación automática de reportes" data-en="Data analysis pipeline with automatic report generation">Pipeline de análisis de datos con generación automática de reportes</div>
+              <div class="service-example" data-es="Sesión de 1–2 horas para entender tu operación y procesos actuales" data-en="1–2 hour session to understand your operation and current processes">Sesión de 1–2 horas para entender tu operación y procesos actuales</div>
+              <div class="service-example" data-es="Mapa de los 3–5 procesos con mayor potencial de automatización o mejora con IA" data-en="Map of the 3–5 processes with the highest potential for automation or AI improvement">Mapa de los 3–5 procesos con mayor potencial de automatización o mejora con IA</div>
+              <div class="service-example" data-es="Recomendación de por dónde empezar según esfuerzo e impacto estimados" data-en="Recommendation of where to start based on estimated effort and impact">Recomendación de por dónde empezar según esfuerzo e impacto estimados</div>
+              <div class="service-example" data-es="Documento de diagnóstico entregable, sin compromiso de contratación" data-en="Deliverable diagnosis document, with no commitment to hire">Documento de diagnóstico entregable, sin compromiso de contratación</div>
             </div>
           </div>
         </div>
@@ -995,27 +1157,38 @@
         <div class="service-card-top">
           <div class="service-icon">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              <path d="M12 8V4H8"/><rect x="8" y="2" width="8" height="4" rx="1"/>
+              <path d="M3 14.5c0-2.76 2.24-5 5-5h8c2.76 0 5 2.24 5 5v0c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5z"/>
+              <path d="M8 14h.01M12 14h.01M16 14h.01"/>
             </svg>
           </div>
           <svg class="service-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <h3 data-es="Diagnóstico IA" data-en="AI Diagnosis">Diagnóstico IA</h3>
-        <p data-es="Conversamos sobre tu negocio, mapeamos dónde la IA puede tener impacto real y te entregamos un diagnóstico honesto de por dónde empezar." data-en="We talk about your business, map where AI can have real impact, and give you an honest diagnosis of where to start.">Conversamos sobre tu negocio, mapeamos dónde la IA puede tener impacto real y te entregamos un diagnóstico honesto de por dónde empezar.</p>
-        <span class="service-tag">Strategy</span>
+        <h3 data-es="Agentes IA & Productos custom" data-en="AI Agents & Custom products">Agentes IA & Productos custom</h3>
+        <p data-es="Diseñamos e implementamos soluciones IA a medida: desde agentes que automatizan tareas hasta sistemas que procesan y analizan información de tu negocio." data-en="We design and implement custom AI solutions: from agents that automate tasks to systems that process and analyze your business data.">Diseñamos e implementamos soluciones IA a medida: desde agentes que automatizan tareas hasta sistemas que procesan y analizan información de tu negocio.</p>
+        <span class="service-tag">AI Engineering</span>
         <div class="service-detail">
           <div class="service-detail-inner">
-            <div class="service-detail-title" data-es="Qué incluye el diagnóstico" data-en="What the diagnosis includes">Qué incluye el diagnóstico</div>
+            <div class="service-detail-title" data-es="Ejemplos de lo que podemos construir" data-en="Examples of what we can build">Ejemplos de lo que podemos construir</div>
             <div class="service-examples">
-              <div class="service-example" data-es="Sesión de 1–2 horas para entender tu operación y procesos actuales" data-en="1–2 hour session to understand your operation and current processes">Sesión de 1–2 horas para entender tu operación y procesos actuales</div>
-              <div class="service-example" data-es="Mapa de los 3–5 procesos con mayor potencial de automatización o mejora con IA" data-en="Map of the 3–5 processes with the highest potential for automation or AI improvement">Mapa de los 3–5 procesos con mayor potencial de automatización o mejora con IA</div>
-              <div class="service-example" data-es="Recomendación de por dónde empezar según esfuerzo e impacto estimados" data-en="Recommendation of where to start based on estimated effort and impact">Recomendación de por dónde empezar según esfuerzo e impacto estimados</div>
-              <div class="service-example" data-es="Documento de diagnóstico entregable, sin compromiso de contratación" data-en="Deliverable diagnosis document, with no commitment to hire">Documento de diagnóstico entregable, sin compromiso de contratación</div>
+              <div class="service-example" data-es="Chatbot con acceso a documentos internos de tu empresa (RAG)" data-en="Chatbot with access to your company's internal documents (RAG)">Chatbot con acceso a documentos internos de tu empresa (RAG)</div>
+              <div class="service-example" data-es="Agente que lee emails, clasifica solicitudes y genera respuestas borradores" data-en="Agent that reads emails, classifies requests and generates draft responses">Agente que lee emails, clasifica solicitudes y genera respuestas borradores</div>
+              <div class="service-example" data-es="Sistema de extracción y resumen automático de información desde PDFs o formularios" data-en="Automatic extraction and summarization system from PDFs or forms">Sistema de extracción y resumen automático de información desde PDFs o formularios</div>
+              <div class="service-example" data-es="Pipeline de análisis de datos con generación automática de reportes" data-en="Data analysis pipeline with automatic report generation">Pipeline de análisis de datos con generación automática de reportes</div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="container">
+    <h2 data-es="¿Conversamos?" data-en="Shall we talk?">¿Conversamos?</h2>
+    <p data-es="Escuchamos tu idea y te damos una primera impresión sin compromiso. Somos dos ingenieros, no un ejército de vendedores." data-en="We listen to your idea and give you a first impression, no strings attached. We're two engineers, not a sales army.">Escuchamos tu idea y te damos una primera impresión sin compromiso. Somos dos ingenieros, no un ejército de vendedores.</p>
+    <a href="#waitlist" class="btn-primary" data-es="Escríbenos →" data-en="Get in touch →">Escríbenos →</a>
   </div>
 </section>
 
@@ -1107,6 +1280,9 @@
           <span class="team-tag">R</span>
           <span class="team-tag">Power BI</span>
           <span class="team-tag">Claude API</span>
+          <span class="team-tag">Kali Linux</span>
+          <span class="team-tag">Dataiku</span>
+          <span class="team-tag">Jupyter</span>
           <span class="team-tag">Ciberseguridad</span>
         </div>
       </div>
@@ -1128,19 +1304,21 @@
           </div>
           <div class="team-highlight">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-            <span data-es="Jefe de Tecnologías del Centro de Alumnos de Ingeniería UC." data-en="Head of Technology at the UC Engineering Student Center.">Jefe de Tecnologías del Centro de Alumnos de Ingeniería UC.</span>
+            <span data-es="Jefe de Tecnologías del CAi UC — infraestructura y coordinación de eventos tecnológicos." data-en="Head of Technology at CAi UC — infrastructure and tech event coordination.">Jefe de Tecnologías del CAi UC — infraestructura y coordinación de eventos tecnológicos.</span>
           </div>
           <div class="team-highlight">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-            <span data-es="Ayudante en programación, BI y estadísticas. Coordinó equipo de 124 tutores." data-en="Teaching assistant in programming, BI and statistics. Coordinated a team of 124 tutors.">Ayudante en programación, BI y estadísticas. Coordinó equipo de 124 tutores.</span>
+            <span data-es="Coordinador del Cuerpo de Tutores Ingeniería UC: lideró 124 tutores y diseñó capacitaciones." data-en="Coordinator of the UC Engineering Tutoring Corps: led 124 tutors and designed training programs.">Coordinador del Cuerpo de Tutores Ingeniería UC: lideró 124 tutores y diseñó capacitaciones.</span>
           </div>
         </div>
         <div class="team-tags">
           <span class="team-tag">Python</span>
+          <span class="team-tag">Pandas</span>
           <span class="team-tag">R</span>
           <span class="team-tag">Power BI</span>
           <span class="team-tag">Tableau</span>
-          <span class="team-tag">Data Analysis</span>
+          <span class="team-tag">Mathematica</span>
+          <span class="team-tag">Inglés B2</span>
           <span class="team-tag">Liderazgo</span>
         </div>
       </div>
@@ -1164,8 +1342,8 @@
     </div>
     <div class="form-success" id="form-success">
       <svg class="success-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
-        <circle cx="20" cy="20" r="19" stroke="#4fffb0" stroke-width="1.5" opacity="0.4"/>
-        <path d="M12 20.5l6 6 10-12" stroke="#4fffb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        <circle cx="20" cy="20" r="19" stroke="#e8903c" stroke-width="1.5" opacity="0.4"/>
+        <path d="M12 20.5l6 6 10-12" stroke="#e8903c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
           style="stroke-dasharray:30;stroke-dashoffset:30;animation:checkDraw 0.6s 0.2s cubic-bezier(0.16,1,0.3,1) forwards"/>
         <style>@keyframes checkDraw { to { stroke-dashoffset: 0; } }</style>
       </svg>
@@ -1175,19 +1353,22 @@
   </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
 <footer>
   <a href="#" class="footer-logo">
-    <svg width="16" height="16" viewBox="0 0 22 22" fill="none">
-      <line x1="11" y1="1.5" x2="11" y2="11" stroke="#4fffb0" stroke-width="2" stroke-linecap="round"/>
-      <line x1="11" y1="11" x2="4.5" y2="19.5" stroke="#4fffb0" stroke-width="2" stroke-linecap="round"/>
-      <line x1="11" y1="11" x2="17.5" y2="19.5" stroke="#4fffb0" stroke-width="2" stroke-linecap="round"/>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+      <path d="M7 21C9 17 10 14 11.5 12C13 10 11 6.5 10.5 5" stroke="#e8903c" stroke-width="2" stroke-linecap="round"/>
+      <path d="M17 21C15 17 14 14 12.5 12C11 10 13 6.5 13.5 5" stroke="#7fb069" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="12" cy="3.5" r="1.5" fill="#e8903c"/>
     </svg>
     folil labs
   </a>
   <p>© 2025 Folil Labs · Santiago, Chile · PUC</p>
   <div class="footer-links">
     <a href="mailto:hola@folillabs.com">hola@folillabs.com</a>
+    <a href="https://linkedin.com/in/patricio-andrés-acevedo-flores-63300b30b/" target="_blank" rel="noopener">LinkedIn</a>
     <a href="#waitlist" data-es="Lista de espera" data-en="Waitlist">Lista de espera</a>
   </div>
 </footer>
@@ -1265,8 +1446,8 @@
   }
 
   // Pre-built edge alpha string cache (avoids string concat in hot path)
-  const EDGE_COLOR = 'rgba(79,255,176,0.07)';
-  const EDGE_ACTIVE_COLOR = 'rgba(79,255,176,0.16)';
+  const EDGE_COLOR = 'rgba(232,144,60,0.07)';
+  const EDGE_ACTIVE_COLOR = 'rgba(232,144,60,0.16)';
 
   function draw() {
     t += DT;
@@ -1320,7 +1501,7 @@
         const t0 = Math.max(0, s.t - i * 0.045);
         const tx = a.x + (b.x - a.x) * t0;
         const ty = a.y + (b.y - a.y) * t0;
-        ctx.strokeStyle = `rgba(79,255,176,${(alpha * 0.4 * (trailSteps - i + 1) / trailSteps).toFixed(2)})`;
+        ctx.strokeStyle = `rgba(232,144,60,${(alpha * 0.4 * (trailSteps - i + 1) / trailSteps).toFixed(2)})`;
         ctx.beginPath();
         ctx.moveTo(tx, ty);
         ctx.lineTo(sx, sy);
@@ -1328,13 +1509,13 @@
       }
 
       // Signal dot — flat fill, no shadow
-      ctx.fillStyle = `rgba(79,255,176,${alpha.toFixed(2)})`;
+      ctx.fillStyle = `rgba(232,144,60,${alpha.toFixed(2)})`;
       ctx.beginPath();
       ctx.arc(sx, sy, 3.5, 0, Math.PI * 2);
       ctx.fill();
 
       // Outer ring instead of glow
-      ctx.strokeStyle = `rgba(79,255,176,${(alpha * 0.35).toFixed(2)})`;
+      ctx.strokeStyle = `rgba(232,144,60,${(alpha * 0.35).toFixed(2)})`;
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.arc(sx, sy, 6, 0, Math.PI * 2);
@@ -1355,7 +1536,7 @@
 
       // Outer ring (replaces glow gradient)
       const ringAlpha = (0.08 + a * 0.2 + pulse * 0.05).toFixed(2);
-      ctx.strokeStyle = `rgba(79,255,176,${ringAlpha})`;
+      ctx.strokeStyle = `rgba(232,144,60,${ringAlpha})`;
       ctx.lineWidth = a > 0.2 ? 1.2 : 0.6;
       ctx.beginPath();
       ctx.arc(n.x, n.y, r * 2.8, 0, Math.PI * 2);
@@ -1363,7 +1544,7 @@
 
       // Second ring when active
       if (a > 0.3) {
-        ctx.strokeStyle = `rgba(79,255,176,${(a * 0.25).toFixed(2)})`;
+        ctx.strokeStyle = `rgba(232,144,60,${(a * 0.25).toFixed(2)})`;
         ctx.lineWidth = 0.6;
         ctx.beginPath();
         ctx.arc(n.x, n.y, r * 4.5, 0, Math.PI * 2);
@@ -1372,7 +1553,7 @@
 
       // Core dot
       const coreAlpha = Math.min(0.3 + pulse * 0.2 + a * 0.5, 0.95).toFixed(2);
-      ctx.fillStyle = `rgba(79,255,176,${coreAlpha})`;
+      ctx.fillStyle = `rgba(232,144,60,${coreAlpha})`;
       ctx.beginPath();
       ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
       ctx.fill();
@@ -1381,7 +1562,7 @@
     // ── Labels ──
     ctx.font = '500 10px "Space Grotesk", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillStyle = 'rgba(79,255,176,0.22)';
+    ctx.fillStyle = 'rgba(232,144,60,0.22)';
     const padX = W * 0.1, usableW = W - padX * 2;
     ['Input', '', '', '', 'Output'].forEach((lbl, li) => {
       if (!lbl) return;
@@ -1445,6 +1626,22 @@ window.addEventListener('scroll', () => {
 
 
 /* ══════════════════════════════════════════
+   HAMBURGER MENU
+══════════════════════════════════════════ */
+function toggleMenu() {
+  const hamburger = document.querySelector('.hamburger');
+  const menu = document.querySelector('.mobile-menu');
+  hamburger.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelector('.hamburger').classList.remove('open');
+    document.querySelector('.mobile-menu').classList.remove('open');
+  });
+});
+
+/* ══════════════════════════════════════════
    LANGUAGE TOGGLE
 ══════════════════════════════════════════ */
 function setLang(lang) {
@@ -1475,6 +1672,15 @@ function submitWaitlist() {
   const companyEl = document.getElementById('f-company');
   const name = nameEl.value.trim();
   const email = emailEl.value.trim();
+  const company = companyEl.value.trim();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (email && !emailRegex.test(email)) {
+    emailEl.style.borderColor = 'rgba(255,80,80,0.5)';
+    emailEl.style.boxShadow = '0 0 0 3px rgba(255,80,80,0.08)';
+    setTimeout(() => { emailEl.style.borderColor = ''; emailEl.style.boxShadow = ''; }, 2000);
+    return;
+  }
 
   if (!name || !email) {
     [nameEl, emailEl].forEach(inp => {
