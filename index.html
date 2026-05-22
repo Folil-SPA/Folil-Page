@@ -1768,8 +1768,8 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
   } catch (err) {
     console.error('Form error:', err);
     alert(lang === 'en'
-      ? 'Error sending form. Please try again.'
-      : 'Error al enviar el formulario. Intenta de nuevo.');
+      ? `Error sending form: ${err.message || 'Please try again.'}`
+      : `Error al enviar el formulario: ${err.message || 'Intenta de nuevo.'}`);
     btn.disabled = false;
     btn.style.opacity = '1';
   }
