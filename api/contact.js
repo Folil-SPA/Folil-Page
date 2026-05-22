@@ -6,7 +6,7 @@ const SENDER_EMAIL = process.env.SENDER_EMAIL;
 const SENDER_PASSWORD = process.env.SENDER_PASSWORD
   ? process.env.SENDER_PASSWORD.replace(/\s/g, '')
   : '';
-const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'contacto@folillabs.com';
+const CONTACT_EMAIL = (process.env.CONTACT_EMAIL || 'contacto@folillabs.com').trim();
 
 function sendJson(res, status, payload) {
   res.statusCode = status;
