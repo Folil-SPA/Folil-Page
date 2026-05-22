@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 24" fill="none">
+  <!-- Amber strand (top-left to bottom-right, over in center) -->
+  <path d="M4 6C10 6 14 10 16 12C18 14 22 18 28 18" stroke="#e8903c" stroke-width="2" stroke-linecap="round"/>
+  <!-- Sage strand (bottom-left to top-right, under in center) -->
+  <path d="M4 18C10 18 14 14 16 12C18 10 22 6 28 6" stroke="#7fb069" stroke-width="2" stroke-linecap="round"/>
+</svg>
