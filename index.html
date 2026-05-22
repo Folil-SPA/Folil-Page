@@ -726,13 +726,26 @@
     .team-card-meta h3 {
       font-family: var(--font-display);
       font-size: 1rem; font-weight: 600; margin-bottom: 0.15rem;
+      order: 1;
     }
+    .team-card-meta { display: flex; flex-direction: column; align-items: flex-start; }
     .team-card-meta .role {
       font-size: 0.75rem; color: var(--accent); font-weight: 500;
+      order: 2;
     }
     .team-card-meta .edu {
       font-size: 0.75rem; color: var(--muted); margin-top: 0.1rem;
+      order: 3;
     }
+    .team-link {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      width: fit-content; margin-top: 0.45rem;
+      font-size: 0.75rem; color: var(--muted);
+      text-decoration: none; transition: color 0.2s;
+      order: 4;
+    }
+    .team-link:hover { color: var(--accent); }
+    .team-link svg { width: 13px; height: 13px; }
     .team-divider {
       height: 1px; background: var(--border);
     }
@@ -1279,6 +1292,10 @@
           <div class="avatar">PA</div>
           <div class="team-card-meta">
             <h3>Patricio Acevedo</h3>
+            <a class="team-link" href="https://www.linkedin.com/in/patricio-acevedo-flores-63300b30b" target="_blank" rel="noopener" aria-label="LinkedIn de Patricio Acevedo">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.24 8.5h4.52V23H.24V8.5zM8 8.5h4.33v1.98h.06c.6-1.14 2.08-2.34 4.28-2.34 4.58 0 5.43 3.02 5.43 6.94V23h-4.52v-7.02c0-1.67-.03-3.83-2.33-3.83-2.34 0-2.7 1.83-2.7 3.71V23H8V8.5z"/></svg>
+              LinkedIn
+            </a>
             <div class="role">Co-founder</div>
             <div class="edu">ICI + Diploma TI · PUC</div>
           </div>
@@ -1315,6 +1332,10 @@
         <div class="team-card-header">
           <div class="avatar">AN</div>
           <div class="team-card-meta">
+            <a class="team-link" href="https://www.linkedin.com/in/%C3%A1lvaro-navarrete-257a1423a/" target="_blank" rel="noopener" aria-label="LinkedIn de Alvaro Navarrete">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.24 8.5h4.52V23H.24V8.5zM8 8.5h4.33v1.98h.06c.6-1.14 2.08-2.34 4.28-2.34 4.58 0 5.43 3.02 5.43 6.94V23h-4.52v-7.02c0-1.67-.03-3.83-2.33-3.83-2.34 0-2.7 1.83-2.7 3.71V23H8V8.5z"/></svg>
+              LinkedIn
+            </a>
             <h3>Álvaro Navarrete</h3>
             <div class="role">Co-founder</div>
             <div class="edu">ICI + Magíster CS + Diploma TI · PUC</div>
@@ -1391,7 +1412,7 @@
   </a>
   <p>© 2025 Folil Labs · Santiago, Chile · PUC</p>
   <div class="footer-links">
-    <a href="mailto:hola@folillabs.com">hola@folillabs.com</a>
+    <a href="mailto:contacto@folil.com">contacto@folil.com</a>
     <a href="https://linkedin.com/in/patricio-andrés-acevedo-flores-63300b30b/" target="_blank" rel="noopener">LinkedIn</a>
     <a href="#waitlist" data-es="Lista de espera" data-en="Waitlist">Lista de espera</a>
   </div>
