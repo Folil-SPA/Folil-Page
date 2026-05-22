@@ -1716,22 +1716,26 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
       })
     });
 
-    if (!response.ok) {
-      let message = response.statusText || 'Form submission failed';
-      const contentType = response.headers.get('content-type') || '';
+    const responseText = await response.text();
+    let data = {};
 
-      if (contentType.includes('application/json')) {
-        const data = await response.json();
-        message = data.error || (data.errors && data.errors[0] && data.errors[0].message) || message;
-      } else {
-        const text = await response.text();
-        message = text || message;
+    if (responseText) {
+      try {
+        data = JSON.parse(responseText);
+      } catch (_err) {
+        data = { error: responseText };
       }
+    }
+
+    if (!response.ok) {
+      const message = data.error
+        || (data.errors && data.errors[0] && data.errors[0].message)
+        || response.statusText
+        || 'Form submission failed';
 
       throw new Error(message);
     }
 
-    const data = await response.json();
     if (!data.success) {
       throw new Error(data.error || 'Form submission failed');
     }
