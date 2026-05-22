@@ -1731,6 +1731,11 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
       throw new Error(message);
     }
 
+    const data = await response.json();
+    if (!data.success) {
+      throw new Error(data.error || 'Form submission failed');
+    }
+
     form.style.display = 'none';
     const success = document.getElementById('form-success');
     success.style.display = 'block';

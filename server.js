@@ -15,6 +15,14 @@ const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'contacto@folillabs.com';
 
 app.use(express.json());
 
+console.log('[INIT] Mail settings', {
+  smtpHost: SMTP_HOST,
+  smtpPort: SMTP_PORT,
+  senderEmailConfigured: Boolean(SENDER_EMAIL),
+  senderPasswordConfigured: Boolean(SENDER_PASSWORD),
+  contactEmail: CONTACT_EMAIL
+});
+
 function getTransporter() {
   if (!SENDER_EMAIL || !SENDER_PASSWORD) {
     return null;
@@ -33,6 +41,12 @@ function getTransporter() {
 
 app.post('/api/contact', async (req, res) => {
   try {
+    console.log('[CONTACT_REQUEST]', {
+      hasName: Boolean(req.body && req.body.name),
+      hasEmail: Boolean(req.body && req.body.email),
+      contactEmail: CONTACT_EMAIL
+    });
+
     const { name = '', email = '', company = '' } = req.body || {};
     const cleanName = String(name).trim();
     const cleanEmail = String(email).trim();
@@ -47,7 +61,7 @@ app.post('/api/contact', async (req, res) => {
       return res.status(500).json({ success: false, error: 'Email credentials are not configured' });
     }
 
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: `"Folil Labs" <${SENDER_EMAIL}>`,
       replyTo: cleanEmail,
       to: CONTACT_EMAIL,
@@ -63,7 +77,21 @@ app.post('/api/contact', async (req, res) => {
       ].join('\n')
     });
 
-    return res.json({ success: true });
+    console.log('[CONTACT_SENT]', {
+      messageId: info.messageId,
+      accepted: info.accepted,
+      rejected: info.rejected,
+      response: info.response
+    });
+
+    if (!info.accepted || info.accepted.length === 0 || (info.rejected && info.rejected.length > 0)) {
+      return res.status(502).json({
+        success: false,
+        error: 'Email provider did not accept the message'
+      });
+    }
+
+    return res.json({ success: true, messageId: info.messageId });
   } catch (error) {
     console.error('[CONTACT_ERROR]', error);
     return res.status(500).json({
