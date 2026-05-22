@@ -1,6 +1,12 @@
 services:
   - type: web
     name: folil-labs
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
+
+  - type: web
+    name: folil-labs-api
     runtime: node
     plan: free
     buildCommand: npm install

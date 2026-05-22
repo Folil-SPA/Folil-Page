@@ -15,6 +15,28 @@ const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'contacto@folillabs.com';
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  const allowedOrigins = new Set([
+    'https://folil-labs.onrender.com',
+    'https://srv-d7v45ibeo5us73eaocr0.onrender.com'
+  ]);
+  const origin = req.headers.origin;
+
+  if (origin && allowedOrigins.has(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  }
+
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
+
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+
+  return next();
+});
+
 console.log('[INIT] Mail settings', {
   smtpHost: SMTP_HOST,
   smtpPort: SMTP_PORT,
