@@ -1720,23 +1720,42 @@ function submitWaitlist() {
 
   const lang = document.documentElement.getAttribute('data-lang') || 'es';
 
-  // Construir mailto con los datos del formulario
-  const subject = encodeURIComponent(lang === 'en'
-    ? `New contact from ${name}${company ? ' (' + company + ')' : ''}`
-    : `Nuevo contacto de ${name}${company ? ' (' + company + ')' : ''}`);
-  const body = encodeURIComponent(
-    (lang === 'en'
-      ? `Name: ${name}\nEmail: ${email}\nCompany: ${company || '—'}`
-      : `Nombre: ${name}\nEmail: ${email}\nEmpresa: ${company || '—'}`)
-  );
-  window.location.href = `mailto:psacevedo@uc.cl?subject=${subject}&body=${body}`;
+  // Deshabilitar botón mientras se envía
+  const btn = event.target;
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
 
-  // Mostrar mensaje de éxito
-  document.querySelector('.waitlist-form').style.display = 'none';
-  const success = document.getElementById('form-success');
-  success.style.display = 'block';
-  success.querySelector('.success-text').textContent = lang === 'en' ? "Opening your email app…" : 'Abriendo tu cliente de correo…';
-  success.querySelector('.success-sub').textContent = lang === 'en' ? 'We review every request personally.' : 'Revisamos cada solicitud personalmente.';
+  // Enviar datos al backend
+  fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, company })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success || !data.error) {
+        // Mostrar éxito
+        document.querySelector('.waitlist-form').style.display = 'none';
+        const success = document.getElementById('form-success');
+        success.style.display = 'block';
+        success.querySelector('.success-text').textContent = lang === 'en'
+          ? "Thank you! We'll be in touch soon."
+          : 'Listo. Te contactaremos pronto.';
+        success.querySelector('.success-sub').textContent = lang === 'en'
+          ? 'We review every request personally.'
+          : 'Revisamos cada solicitud personalmente.';
+      } else {
+        throw new Error(data.error || 'Unknown error');
+      }
+    })
+    .catch(err => {
+      console.error('Form error:', err);
+      alert(lang === 'en'
+        ? 'Error sending form. Please try again.'
+        : 'Error al enviar el formulario. Intenta de nuevo.');
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    });
 }
 </script>
 </body>
