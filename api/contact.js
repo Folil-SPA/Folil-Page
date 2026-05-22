@@ -8,6 +8,12 @@ const SENDER_PASSWORD = process.env.SENDER_PASSWORD
   : '';
 const CONTACT_EMAIL = (process.env.CONTACT_EMAIL || 'contacto@folillabs.com').trim();
 
+function createTicketId() {
+  const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const suffix = Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `FOLIL-${date}-${suffix}`;
+}
+
 function sendJson(res, status, payload) {
   res.statusCode = status;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -95,6 +101,7 @@ module.exports = async function handler(req, res) {
       return;
     }
 
+    const ticketId = createTicketId();
     const transporter = getTransporter();
     if (!transporter) {
       sendJson(res, 500, { success: false, error: 'Email credentials are not configured' });
@@ -105,10 +112,11 @@ module.exports = async function handler(req, res) {
       from: `"Folil Labs" <${SENDER_EMAIL}>`,
       replyTo: cleanEmail,
       to: CONTACT_EMAIL,
-      subject: `Nuevo contacto de ${cleanName}`,
+      subject: `[${ticketId}] Nuevo contacto de ${cleanName}`,
       text: [
         'Nuevo registro en la lista de espera de Folil Labs:',
         '',
+        `Ticket: ${ticketId}`,
         `Nombre: ${cleanName}`,
         `Email: ${cleanEmail}`,
         `Empresa: ${cleanCompany || '-'}`,
@@ -118,6 +126,7 @@ module.exports = async function handler(req, res) {
     });
 
     console.log('[CONTACT_SENT]', {
+      ticketId,
       messageId: info.messageId,
       accepted: info.accepted,
       rejected: info.rejected
@@ -134,12 +143,14 @@ module.exports = async function handler(req, res) {
       const confirmation = await transporter.sendMail({
         from: `"Folil Labs" <${SENDER_EMAIL}>`,
         to: cleanEmail,
-        subject: 'Recibimos tu solicitud en Folil Labs',
+        subject: `[${ticketId}] Recibimos tu solicitud en Folil Labs`,
         text: [
           `Hola ${cleanName},`,
           '',
           'Gracias por contactar a Folil Labs.',
           'Recibimos tu solicitud correctamente y la revisaremos personalmente.',
+          '',
+          `Tu número de seguimiento es: ${ticketId}`,
           '',
           'Te responderemos pronto desde contacto@folillabs.com.',
           '',
@@ -149,6 +160,7 @@ module.exports = async function handler(req, res) {
 
       confirmationMessageId = confirmation.messageId;
       console.log('[CONFIRMATION_SENT]', {
+        ticketId,
         messageId: confirmation.messageId,
         accepted: confirmation.accepted,
         rejected: confirmation.rejected
@@ -159,6 +171,7 @@ module.exports = async function handler(req, res) {
 
     sendJson(res, 200, {
       success: true,
+      ticketId,
       messageId: info.messageId,
       confirmationMessageId
     });

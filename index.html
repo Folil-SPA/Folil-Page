@@ -825,6 +825,18 @@
       color: var(--muted);
       font-size: 0.85rem;
     }
+    .success-ticket {
+      display: inline-block;
+      margin-top: 0.9rem;
+      padding: 0.45rem 0.7rem;
+      border: 1px solid rgba(232,144,60,0.22);
+      border-radius: 8px;
+      color: var(--accent);
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0;
+      background: rgba(232,144,60,0.08);
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -1374,6 +1386,7 @@
       </svg>
       <span class="success-text" data-es="Listo. Te contactaremos pronto." data-en="Done. We'll be in touch soon.">Listo. Te contactaremos pronto.</span>
       <span class="success-sub" data-es="Revisamos cada solicitud personalmente." data-en="We review every request personally.">Revisamos cada solicitud personalmente.</span>
+      <span class="success-ticket"></span>
     </div>
   </div>
 </section>
@@ -1749,6 +1762,9 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
     success.querySelector('.success-sub').textContent = lang === 'en'
       ? 'We review every request personally.'
       : 'Revisamos cada solicitud personalmente.';
+    success.querySelector('.success-ticket').textContent = data.ticketId
+      ? (lang === 'en' ? `Tracking ID: ${data.ticketId}` : `Ticket de seguimiento: ${data.ticketId}`)
+      : '';
   } catch (err) {
     console.error('Form error:', err);
     alert(lang === 'en'
