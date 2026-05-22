@@ -2,12 +2,10 @@ services:
   - type: web
     name: folil-labs
     runtime: node
-    buildCommand: npm install
-    startCommand: npm start
+    plan: free
+    startCommand: node server.js
     envVars:
       - key: SENDER_EMAIL
         scope: run
       - key: SENDER_PASSWORD
         scope: run
-      - key: PORT
-        value: "8080"
