@@ -4,11 +4,13 @@ const path = require('path');
 const app = express();
 
 app.use(express.json());
-app.use(express.static('.'));
 
 const SENDER_EMAIL = process.env.SENDER_EMAIL;
 const SENDER_PASSWORD = process.env.SENDER_PASSWORD;
 const CONTACT_EMAIL = 'contacto@folillabs.com';
+
+console.log('[INIT] SENDER_EMAIL configured:', !!SENDER_EMAIL);
+console.log('[INIT] SENDER_PASSWORD configured:', !!SENDER_PASSWORD);
 
 let transporter = null;
 
@@ -20,8 +22,10 @@ if (SENDER_EMAIL && SENDER_PASSWORD) {
       pass: SENDER_PASSWORD
     }
   });
+  console.log('[INIT] Email transporter configured');
 }
 
+// API routes FIRST
 app.post('/api/contact', async (req, res) => {
   try {
     if (!SENDER_EMAIL || !SENDER_PASSWORD || !transporter) {
@@ -54,11 +58,14 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+// Static files LAST
+app.use(express.static(path.join(__dirname)));
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`[INIT] Server running on port ${PORT}`);
 });
