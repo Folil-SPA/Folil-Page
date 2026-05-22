@@ -6,7 +6,7 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 const SMTP_HOST = process.env.SMTP_HOST || 'smtp.gmail.com';
-const SMTP_PORT = Number(process.env.SMTP_PORT || 465);
+const SMTP_PORT = Number(process.env.SMTP_PORT || 587);
 const SENDER_EMAIL = process.env.SENDER_EMAIL;
 const SENDER_PASSWORD = process.env.SENDER_PASSWORD
   ? process.env.SENDER_PASSWORD.replace(/\s/g, '')
@@ -54,6 +54,10 @@ function getTransporter() {
     host: SMTP_HOST,
     port: SMTP_PORT,
     secure: SMTP_PORT === 465,
+    requireTLS: SMTP_PORT === 587,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
     auth: {
       user: SENDER_EMAIL,
       pass: SENDER_PASSWORD
