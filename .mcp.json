@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "render": {
+      "type": "sse",
+      "url": "https://mcp.render.com/mcp"
+    }
+  }
+}

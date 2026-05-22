@@ -2,11 +2,9 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import smtplib
 import os
+import sys
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from dotenv import load_dotenv
-
-load_dotenv()
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
@@ -14,13 +12,21 @@ CORS(app)
 # Variables de entorno (configurar en Render dashboard)
 SMTP_SERVER = os.getenv('SMTP_SERVER', 'smtp.gmail.com')
 SMTP_PORT = int(os.getenv('SMTP_PORT', '587'))
-SENDER_EMAIL = os.getenv('SENDER_EMAIL', 'tu_email@gmail.com')
-SENDER_PASSWORD = os.getenv('SENDER_PASSWORD', 'tu_password')
+SENDER_EMAIL = os.getenv('SENDER_EMAIL')
+SENDER_PASSWORD = os.getenv('SENDER_PASSWORD')
 CONTACT_EMAIL = 'contacto@folillabs.com'
+
+print(f"[INIT] SMTP_SERVER: {SMTP_SERVER}", file=sys.stderr)
+print(f"[INIT] SMTP_PORT: {SMTP_PORT}", file=sys.stderr)
+print(f"[INIT] SENDER_EMAIL: {SENDER_EMAIL if SENDER_EMAIL else 'NOT SET'}", file=sys.stderr)
+print(f"[INIT] SENDER_PASSWORD: {'SET' if SENDER_PASSWORD else 'NOT SET'}", file=sys.stderr)
 
 @app.route('/api/contact', methods=['POST'])
 def contact():
     try:
+        if not SENDER_EMAIL or not SENDER_PASSWORD:
+            return jsonify({'error': 'Email credentials not configured'}), 500
+
         data = request.get_json()
         name = data.get('name', '').strip()
         email = data.get('email', '').strip()
@@ -29,40 +35,32 @@ def contact():
         if not name or not email:
             return jsonify({'error': 'Name and email are required'}), 400
 
-        # Construir el email
-        subject = f"Nuevo contacto de {name}" if company else f"Nuevo contacto de {name}"
-        body = f"""
-Nuevo registro en la lista de espera de Folil Labs:
+        print(f"[CONTACT] Sending email from {email} ({name})", file=sys.stderr)
 
-Nombre: {name}
-Email: {email}
-Empresa: {company if company else '—'}
+        subject = f"Nuevo contacto de {name}"
+        body = f"Nombre: {name}\nEmail: {email}\nEmpresa: {company or '—'}"
 
----
-Este es un email automático del formulario de contacto.
-"""
-
-        # Enviar email
         msg = MIMEMultipart()
         msg['From'] = SENDER_EMAIL
         msg['To'] = CONTACT_EMAIL
         msg['Subject'] = subject
         msg.attach(MIMEText(body, 'plain'))
 
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+        print(f"[CONTACT] Connecting to {SMTP_SERVER}:{SMTP_PORT}", file=sys.stderr)
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=10)
         server.starttls()
         server.login(SENDER_EMAIL, SENDER_PASSWORD)
         server.send_message(msg)
         server.quit()
 
-        return jsonify({'success': True, 'message': 'Email sent successfully'}), 200
+        print(f"[CONTACT] Email sent successfully", file=sys.stderr)
+        return jsonify({'success': True}), 200
 
     except Exception as e:
+        print(f"[ERROR] {str(e)}", file=sys.stderr)
         import traceback
-        error_msg = f"Error sending email: {str(e)}"
-        print(error_msg)
-        print(traceback.format_exc())
-        return jsonify({'error': error_msg, 'details': str(e)}), 500
+        traceback.print_exc(file=sys.stderr)
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/', methods=['GET'])
 def index():
@@ -77,10 +75,12 @@ def debug():
     return jsonify({
         'smtp_server': SMTP_SERVER,
         'smtp_port': SMTP_PORT,
-        'sender_email': SENDER_EMAIL if SENDER_EMAIL != 'tu_email@gmail.com' else 'NOT_CONFIGURED',
-        'sender_password': '***' if SENDER_PASSWORD != 'tu_password' else 'NOT_CONFIGURED',
+        'sender_email_configured': SENDER_EMAIL is not None,
+        'sender_password_configured': SENDER_PASSWORD is not None,
         'contact_email': CONTACT_EMAIL
     }), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.getenv('PORT', 8080)), debug=False)
+    port = int(os.getenv('PORT', 8080))
+    print(f"[INIT] Starting server on port {port}", file=sys.stderr)
+    app.run(host='0.0.0.0', port=port, debug=False)
