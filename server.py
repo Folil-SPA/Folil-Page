@@ -58,8 +58,11 @@ Este es un email automático del formulario de contacto.
         return jsonify({'success': True, 'message': 'Email sent successfully'}), 200
 
     except Exception as e:
-        print(f"Error sending email: {e}")
-        return jsonify({'error': str(e)}), 500
+        import traceback
+        error_msg = f"Error sending email: {str(e)}"
+        print(error_msg)
+        print(traceback.format_exc())
+        return jsonify({'error': error_msg, 'details': str(e)}), 500
 
 @app.route('/', methods=['GET'])
 def index():
@@ -68,6 +71,16 @@ def index():
 @app.route('/health', methods=['GET'])
 def health():
     return jsonify({'status': 'ok'}), 200
+
+@app.route('/api/debug', methods=['GET'])
+def debug():
+    return jsonify({
+        'smtp_server': SMTP_SERVER,
+        'smtp_port': SMTP_PORT,
+        'sender_email': SENDER_EMAIL if SENDER_EMAIL != 'tu_email@gmail.com' else 'NOT_CONFIGURED',
+        'sender_password': '***' if SENDER_PASSWORD != 'tu_password' else 'NOT_CONFIGURED',
+        'contact_email': CONTACT_EMAIL
+    }), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.getenv('PORT', 8080)), debug=False)
