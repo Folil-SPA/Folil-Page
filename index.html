@@ -902,7 +902,10 @@
       .value-grid { grid-template-columns: 1fr; }
     }
   </style>
-</head>
+  <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+      <script>emailjs.init('PUBLIC_KEY');</script>
+      </head>
 <body>
 
 <div id="scroll-progress"></div>
@@ -1363,6 +1366,7 @@
         <div class="field"><input type="email" id="f-email" placeholder="Email" autocomplete="email" /></div>
       </div>
       <div class="field"><input type="text" id="f-company" placeholder="Empresa / Company" /></div>
+                <div class="field"><input type="tel" id="f-phone" placeholder="Teléfono / Phone" autocomplete="tel" /></div>
       <button class="btn-submit" onclick="submitWaitlist()" data-es="Unirme a la lista →" data-en="Join the list →">Unirme a la lista →</button>
     </div>
     <div class="form-success" id="form-success">
@@ -1695,9 +1699,11 @@ function submitWaitlist() {
   const nameEl = document.getElementById('f-name');
   const emailEl = document.getElementById('f-email');
   const companyEl = document.getElementById('f-company');
+    const phoneEl  = document.getElementById('f-phone');
   const name = nameEl.value.trim();
   const email = emailEl.value.trim();
   const company = companyEl.value.trim();
+    const phone   = phoneEl ? phoneEl.value.trim() : '';
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (email && !emailRegex.test(email)) {
@@ -1720,24 +1726,25 @@ function submitWaitlist() {
 
   const lang = document.documentElement.getAttribute('data-lang') || 'es';
 
-  // Construir mailto con los datos del formulario
-  const subject = encodeURIComponent(lang === 'en'
-    ? `New contact from ${name}${company ? ' (' + company + ')' : ''}`
-    : `Nuevo contacto de ${name}${company ? ' (' + company + ')' : ''}`);
-  const body = encodeURIComponent(
-    (lang === 'en'
-      ? `Name: ${name}\nEmail: ${email}\nCompany: ${company || '—'}`
-      : `Nombre: ${name}\nEmail: ${email}\nEmpresa: ${company || '—'}`)
-  );
-  window.location.href = `mailto:psacevedo@uc.cl?subject=${subject}&body=${body}`;
-
-  // Mostrar mensaje de éxito
-  document.querySelector('.waitlist-form').style.display = 'none';
-  const success = document.getElementById('form-success');
-  success.style.display = 'block';
-  success.querySelector('.success-text').textContent = lang === 'en' ? "Opening your email app…" : 'Abriendo tu cliente de correo…';
-  success.querySelector('.success-sub').textContent = lang === 'en' ? 'We review every request personally.' : 'Revisamos cada solicitud personalmente.';
-}
+    // Enviar con EmailJS
+        emailjs.send('SERVICE_ID', 'TEMPLATE_ID', {
+              from_name:    name,
+                    from_email:   email,
+                          from_company: company || '—',
+                                from_phone:   phone  || '—',
+                                      to_email:     'contacto@folillabs.com'
+                                          })
+                                              .then(() => {
+                                                    document.querySelector('.waitlist-form').style.display = 'none';
+                                                          const success = document.getElementById('form-success');
+                                                                      const lang2 = document.documentElement.getAttribute('data-lang') || 'es';
+                                                                            success.querySelector('.success-text').textContent = lang2 === 'en' ? "Done. We'll be in touch soon." : 'Listo. Te contactaremos pronto.';
+                                                                                  success.querySelector('.success-sub').textContent  = lang2 === 'en' ? 'We review every request personally.' : 'Revisamos cada solicitud personalmente.';
+                                                                                      })
+                                                                                          .catch(() => {
+                                                                                                alert('Error al enviar. Por favor escríbenos a contacto@folillabs.com');
+                                                                                                    });
+                                                                                                    }
 </script>
 </body>
 </html>
