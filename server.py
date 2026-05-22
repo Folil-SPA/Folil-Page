@@ -64,7 +64,11 @@ def contact():
 
 @app.route('/', methods=['GET'])
 def index():
-    return send_from_directory('.', 'index.html')
+    try:
+        return send_from_directory('.', 'index.html')
+    except Exception as e:
+        print(f"[ERROR] Failed to serve index.html: {e}", file=sys.stderr)
+        return jsonify({'error': 'index.html not found'}), 404
 
 @app.route('/health', methods=['GET'])
 def health():
@@ -79,6 +83,13 @@ def debug():
         'sender_password_configured': SENDER_PASSWORD is not None,
         'contact_email': CONTACT_EMAIL
     }), 200
+
+@app.route('/<path:path>')
+def serve_static(path):
+    try:
+        return send_from_directory('.', path)
+    except:
+        return jsonify({'error': f'File {path} not found'}), 404
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 8080))
