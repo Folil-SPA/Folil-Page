@@ -1357,14 +1357,14 @@
     <span class="section-tag reveal" data-es="Únete" data-en="Join">Únete</span>
     <h2 class="reveal" data-es="¿Listo para crecer<br>desde la raíz?" data-en="Ready to grow<br>from the root?">¿Listo para crecer<br>desde la raíz?</h2>
     <p class="section-sub reveal" style="margin: 0 auto;" data-es="Somos un equipo pequeño y selectivo. Únete a la lista y conversamos sobre tu proyecto." data-en="We're a small and selective team. Join the list and let's talk about your project.">Somos un equipo pequeño y selectivo. Únete a la lista y conversamos sobre tu proyecto.</p>
-    <div class="waitlist-form reveal">
+    <form class="waitlist-form reveal" action="https://formspree.io/f/xyzgvpzd" method="POST" id="waitlistForm">
       <div class="form-row">
-        <div class="field"><input type="text" id="f-name" placeholder="Nombre / Name" autocomplete="name" /></div>
-        <div class="field"><input type="email" id="f-email" placeholder="Email" autocomplete="email" /></div>
+        <div class="field"><input type="text" name="name" placeholder="Nombre / Name" autocomplete="name" required /></div>
+        <div class="field"><input type="email" name="email" placeholder="Email" autocomplete="email" required /></div>
       </div>
-      <div class="field"><input type="text" id="f-company" placeholder="Empresa / Company" /></div>
-      <button class="btn-submit" onclick="submitWaitlist()" data-es="Unirme a la lista →" data-en="Join the list →">Unirme a la lista →</button>
-    </div>
+      <div class="field"><input type="text" name="company" placeholder="Empresa / Company" /></div>
+      <button type="submit" class="btn-submit" data-es="Unirme a la lista →" data-en="Join the list →">Unirme a la lista →</button>
+    </form>
     <div class="form-success" id="form-success">
       <svg class="success-icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
         <circle cx="20" cy="20" r="19" stroke="#e8903c" stroke-width="1.5" opacity="0.4"/>
@@ -1691,76 +1691,22 @@ function toggleService(card) {
 /* ══════════════════════════════════════════
    WAITLIST FORM
 ══════════════════════════════════════════ */
-function submitWaitlist() {
-  const nameEl = document.getElementById('f-name');
-  const emailEl = document.getElementById('f-email');
-  const companyEl = document.getElementById('f-company');
-  const name = nameEl.value.trim();
-  const email = emailEl.value.trim();
-  const company = companyEl.value.trim();
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (email && !emailRegex.test(email)) {
-    emailEl.style.borderColor = 'rgba(255,80,80,0.5)';
-    emailEl.style.boxShadow = '0 0 0 3px rgba(255,80,80,0.08)';
-    setTimeout(() => { emailEl.style.borderColor = ''; emailEl.style.boxShadow = ''; }, 2000);
-    return;
-  }
-
-  if (!name || !email) {
-    [nameEl, emailEl].forEach(inp => {
-      if (!inp.value.trim()) {
-        inp.style.borderColor = 'rgba(255,80,80,0.5)';
-        inp.style.boxShadow = '0 0 0 3px rgba(255,80,80,0.08)';
-        setTimeout(() => { inp.style.borderColor = ''; inp.style.boxShadow = ''; }, 2000);
-      }
-    });
-    return;
-  }
-
+document.getElementById('waitlistForm').addEventListener('submit', function(e) {
   const lang = document.documentElement.getAttribute('data-lang') || 'es';
 
-  // Deshabilitar botón mientras se envía
-  const btn = event.target;
-  btn.disabled = true;
-  btn.style.opacity = '0.6';
-
-  // Enviar datos al backend
-  fetch('/api/contact', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, company })
-  })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-      }
-      return res.json();
-    })
-    .then(data => {
-      if (data.success) {
-        document.querySelector('.waitlist-form').style.display = 'none';
-        const success = document.getElementById('form-success');
-        success.style.display = 'block';
-        success.querySelector('.success-text').textContent = lang === 'en'
-          ? "Thank you! We'll be in touch soon."
-          : 'Listo. Te contactaremos pronto.';
-        success.querySelector('.success-sub').textContent = lang === 'en'
-          ? 'We review every request personally.'
-          : 'Revisamos cada solicitud personalmente.';
-      } else if (data.error) {
-        throw new Error(data.error);
-      }
-    })
-    .catch(err => {
-      console.error('Form error:', err);
-      alert(lang === 'en'
-        ? 'Error: ' + err.message
-        : 'Error: ' + err.message);
-      btn.disabled = false;
-      btn.style.opacity = '1';
-    });
-}
+  // Mostrar mensaje de éxito cuando Formspree redirija
+  setTimeout(() => {
+    document.querySelector('.waitlist-form').style.display = 'none';
+    const success = document.getElementById('form-success');
+    success.style.display = 'block';
+    success.querySelector('.success-text').textContent = lang === 'en'
+      ? "Thank you! We'll be in touch soon."
+      : 'Listo. Te contactaremos pronto.';
+    success.querySelector('.success-sub').textContent = lang === 'en'
+      ? 'We review every request personally.'
+      : 'Revisamos cada solicitud personalmente.';
+  }, 1000);
+});
 </script>
 </body>
 </html>
