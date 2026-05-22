@@ -22,6 +22,13 @@ SMTP_PORT=587
 
 ## Deploy
 
+En Vercel, usa esta configuración:
+
+- Framework Preset: `Other`
+- Build Command: `npm run build`
+- Output Directory: `build`
+- Install Command: `npm install`
+
 ```bash
 vercel --prod
 ```

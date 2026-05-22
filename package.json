@@ -4,7 +4,9 @@
   "private": true,
   "description": "Folil Labs landing page",
   "main": "api/contact.js",
-  "scripts": {},
+  "scripts": {
+    "build": "node scripts/build-static.js"
+  },
   "engines": {
     "node": ">=18"
   },
