@@ -128,7 +128,40 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    sendJson(res, 200, { success: true, messageId: info.messageId });
+    let confirmationMessageId = null;
+
+    try {
+      const confirmation = await transporter.sendMail({
+        from: `"Folil Labs" <${SENDER_EMAIL}>`,
+        to: cleanEmail,
+        subject: 'Recibimos tu solicitud en Folil Labs',
+        text: [
+          `Hola ${cleanName},`,
+          '',
+          'Gracias por contactar a Folil Labs.',
+          'Recibimos tu solicitud correctamente y la revisaremos personalmente.',
+          '',
+          'Te responderemos pronto desde contacto@folillabs.com.',
+          '',
+          'Equipo Folil Labs'
+        ].join('\n')
+      });
+
+      confirmationMessageId = confirmation.messageId;
+      console.log('[CONFIRMATION_SENT]', {
+        messageId: confirmation.messageId,
+        accepted: confirmation.accepted,
+        rejected: confirmation.rejected
+      });
+    } catch (confirmationError) {
+      console.error('[CONFIRMATION_ERROR]', confirmationError);
+    }
+
+    sendJson(res, 200, {
+      success: true,
+      messageId: info.messageId,
+      confirmationMessageId
+    });
   } catch (error) {
     console.error('[CONTACT_ERROR]', error);
     sendJson(res, 500, { success: false, error: 'Could not send email' });
