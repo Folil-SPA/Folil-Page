@@ -1,10 +1,14 @@
 services:
   - type: web
     name: folil-labs
-    runtime: static
-    buildCommand: ""
-    staticPublishPath: .
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: SENDER_EMAIL
+        sync: false
+      - key: SENDER_PASSWORD
+        sync: false
+      - key: CONTACT_EMAIL
+        value: contacto@folillabs.com
