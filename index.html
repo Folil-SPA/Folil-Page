@@ -1691,12 +1691,39 @@ function toggleService(card) {
 /* ══════════════════════════════════════════
    WAITLIST FORM
 ══════════════════════════════════════════ */
-document.getElementById('waitlistForm').addEventListener('submit', function(e) {
-  const lang = document.documentElement.getAttribute('data-lang') || 'es';
+document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
 
-  // Mostrar mensaje de éxito cuando Formspree redirija
-  setTimeout(() => {
-    document.querySelector('.waitlist-form').style.display = 'none';
+  const lang = document.documentElement.getAttribute('data-lang') || 'es';
+  const form = e.currentTarget;
+  const btn = form.querySelector('.btn-submit');
+
+  btn.disabled = true;
+  btn.style.opacity = '0.65';
+
+  try {
+    const response = await fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: { Accept: 'application/json' }
+    });
+
+    if (!response.ok) {
+      let message = response.statusText || 'Form submission failed';
+      const contentType = response.headers.get('content-type') || '';
+
+      if (contentType.includes('application/json')) {
+        const data = await response.json();
+        message = data.error || (data.errors && data.errors[0] && data.errors[0].message) || message;
+      } else {
+        const text = await response.text();
+        message = text || message;
+      }
+
+      throw new Error(message);
+    }
+
+    form.style.display = 'none';
     const success = document.getElementById('form-success');
     success.style.display = 'block';
     success.querySelector('.success-text').textContent = lang === 'en'
@@ -1705,7 +1732,14 @@ document.getElementById('waitlistForm').addEventListener('submit', function(e) {
     success.querySelector('.success-sub').textContent = lang === 'en'
       ? 'We review every request personally.'
       : 'Revisamos cada solicitud personalmente.';
-  }, 1000);
+  } catch (err) {
+    console.error('Form error:', err);
+    alert(lang === 'en'
+      ? 'Error sending form. Please try again.'
+      : 'Error al enviar el formulario. Intenta de nuevo.');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }
 });
 </script>
 </body>
