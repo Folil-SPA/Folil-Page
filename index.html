@@ -1731,10 +1731,14 @@ function submitWaitlist() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, company })
   })
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      return res.json();
+    })
     .then(data => {
-      if (data.success || !data.error) {
-        // Mostrar éxito
+      if (data.success) {
         document.querySelector('.waitlist-form').style.display = 'none';
         const success = document.getElementById('form-success');
         success.style.display = 'block';
@@ -1744,15 +1748,15 @@ function submitWaitlist() {
         success.querySelector('.success-sub').textContent = lang === 'en'
           ? 'We review every request personally.'
           : 'Revisamos cada solicitud personalmente.';
-      } else {
-        throw new Error(data.error || 'Unknown error');
+      } else if (data.error) {
+        throw new Error(data.error);
       }
     })
     .catch(err => {
       console.error('Form error:', err);
       alert(lang === 'en'
-        ? 'Error sending form. Please try again.'
-        : 'Error al enviar el formulario. Intenta de nuevo.');
+        ? 'Error: ' + err.message
+        : 'Error: ' + err.message);
       btn.disabled = false;
       btn.style.opacity = '1';
     });
