@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const translations: Record<string, Record<string, string>> = {
   es: {
@@ -26,6 +26,20 @@ const translations: Record<string, Record<string, string>> = {
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [lang, setLang] = useState<"es" | "en">("es");
+  const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setScrolled(y > 40);
+      setProgress(total > 0 ? (y / total) * 100 : 0);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const setLanguage = (l: "es" | "en") => {
     setLang(l);
@@ -40,7 +54,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav id="main-nav">
+      <nav id="main-nav" className={scrolled ? "scrolled" : ""}>
         <a href="#" className="logo">
           <svg
             className="logo-mark"
@@ -103,7 +117,7 @@ export default function Nav() {
         <a href="#waitlist" onClick={() => setMenuOpen(false)} style={{ color: "var(--accent)" }}>{t.waitlist}</a>
       </div>
 
-      <div id="scroll-progress" />
+      <div id="scroll-progress" style={{ width: `${progress}%` }} />
 
       <style jsx>{`
         #scroll-progress {
@@ -112,9 +126,9 @@ export default function Nav() {
           left: 0;
           height: 2px;
           background: linear-gradient(90deg, var(--accent), var(--accent2));
-          width: 0%;
           z-index: 99;
-          transition: width 0.05s linear;
+          width: 0%;
+          transition: none;
           box-shadow: 0 0 8px var(--accent-glow);
         }
         nav {
@@ -182,6 +196,8 @@ export default function Nav() {
         }
         .lang-toggle button.active { background: var(--accent); color: #000; }
         .btn-cta {
+          display: inline-flex;
+          align-items: center;
           padding: 0.5rem 1.2rem;
           background: var(--text);
           color: #000;
@@ -191,6 +207,7 @@ export default function Nav() {
           font-weight: 600;
           text-decoration: none;
           transition: all 0.2s;
+          line-height: 1;
         }
         .btn-cta:hover { opacity: 0.88; transform: translateY(-1px); }
         .hamburger {

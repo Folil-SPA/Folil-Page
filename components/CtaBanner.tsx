@@ -1,3 +1,5 @@
+"use client";
+
 export default function CtaBanner() {
   return (
     <section className="cta-banner">
