@@ -35,7 +35,7 @@
     "sameAs": []
   }
   </script>
-  <link rel="icon" type="image/png" href="logos/folil%20(2).png" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230a0a07'/><path d='M16 25V11' stroke='%23e8903c' stroke-width='2.1' stroke-linecap='round'/><path d='M16 18c-4.4-1.4-6.8-4.2-7.2-8.2M16 18c4.4-1.4 6.8-4.2 7.2-8.2M16 23c-4.2-1-7-3.2-8.4-6.8M16 23c4.2-1 7-3.2 8.4-6.8' stroke='%237fb069' stroke-width='1.9' stroke-linecap='round'/><circle cx='16' cy='8' r='2.1' fill='%23e8903c'/><circle cx='8.6' cy='9.4' r='1.8' fill='%237fb069'/><circle cx='23.4' cy='9.4' r='1.8' fill='%237fb069'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
@@ -100,12 +100,12 @@
       text-decoration: none; color: var(--text);
     }
     .logo-mark {
-      width: 42px; height: 30px; border-radius: 8px;
-      object-fit: contain; object-position: center;
-      background: rgba(255,255,255,0.58);
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 0 18px rgba(232,144,60,0.1);
-      filter: brightness(1.25) contrast(1.15);
+      width: 30px; height: 30px; border-radius: 9px;
+      color: var(--accent);
+      background: linear-gradient(145deg, rgba(232,144,60,0.1), rgba(127,176,105,0.08));
+      border: 1px solid rgba(232,144,60,0.22);
+      box-shadow: 0 0 18px rgba(232,144,60,0.12);
+      flex-shrink: 0;
     }
     .logo span.labs { font-weight: 300; color: var(--muted); margin-left: 1px; }
     .nav-right { display: flex; align-items: center; gap: 1.5rem; }
@@ -859,7 +859,7 @@
       color: var(--text); text-decoration: none; 
     }
     .footer-logo .logo-mark {
-      width: 34px; height: 24px; border-radius: 7px;
+      width: 24px; height: 24px; border-radius: 7px;
     }
     footer p { font-size: 0.78rem; color: var(--subtle); }
     .footer-links { display: flex; gap: 1.5rem; }
@@ -933,7 +933,14 @@
 <!-- NAV -->
 <nav id="main-nav">
   <a href="#" class="logo">
-    <img class="logo-mark" src="logos/folil%20(2).png" alt="" aria-hidden="true">
+    <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M16 25V11" stroke="#e8903c" stroke-width="2.1" stroke-linecap="round"/>
+      <path d="M16 18c-4.4-1.4-6.8-4.2-7.2-8.2M16 18c4.4-1.4 6.8-4.2 7.2-8.2M16 23c-4.2-1-7-3.2-8.4-6.8M16 23c4.2-1 7-3.2 8.4-6.8" stroke="#7fb069" stroke-width="1.9" stroke-linecap="round"/>
+      <circle cx="16" cy="8" r="2.1" fill="#e8903c"/>
+      <circle cx="8.6" cy="9.4" r="1.8" fill="#7fb069"/>
+      <circle cx="23.4" cy="9.4" r="1.8" fill="#7fb069"/>
+      <path d="M11.8 25.4c1.9-1.3 3.3-2.5 4.2-3.7.9 1.2 2.3 2.4 4.2 3.7" stroke="#e8903c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
     folil<span class="labs">labs</span>
   </a>
   <div class="nav-right">
@@ -1410,13 +1417,21 @@
 <!-- FOOTER -->
 <footer>
   <a href="#" class="footer-logo">
-    <img class="logo-mark" src="logos/folil%20(2).png" alt="" aria-hidden="true">
+    <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <path d="M16 25V11" stroke="#e8903c" stroke-width="2.1" stroke-linecap="round"/>
+      <path d="M16 18c-4.4-1.4-6.8-4.2-7.2-8.2M16 18c4.4-1.4 6.8-4.2 7.2-8.2M16 23c-4.2-1-7-3.2-8.4-6.8M16 23c4.2-1 7-3.2 8.4-6.8" stroke="#7fb069" stroke-width="1.9" stroke-linecap="round"/>
+      <circle cx="16" cy="8" r="2.1" fill="#e8903c"/>
+      <circle cx="8.6" cy="9.4" r="1.8" fill="#7fb069"/>
+      <circle cx="23.4" cy="9.4" r="1.8" fill="#7fb069"/>
+      <path d="M11.8 25.4c1.9-1.3 3.3-2.5 4.2-3.7.9 1.2 2.3 2.4 4.2 3.7" stroke="#e8903c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
     folil labs
   </a>
   <p>© 2025 Folil Labs · Santiago, Chile · PUC</p>
   <div class="footer-links">
     <a href="mailto:contacto@folil.com">contacto@folil.com</a>
-    <a href="https://linkedin.com/in/patricio-andrés-acevedo-flores-63300b30b/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/patricio-acevedo-flores-63300b30b" target="_blank" rel="noopener">LinkedIn Patricio</a>
+    <a href="https://www.linkedin.com/in/%C3%A1lvaro-navarrete-257a1423a/" target="_blank" rel="noopener">LinkedIn Alvaro</a>
     <a href="#waitlist" data-es="Lista de espera" data-en="Waitlist">Lista de espera</a>
   </div>
 </footer>
