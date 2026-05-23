@@ -13,8 +13,7 @@ const files = [
 ];
 
 const dirs = [
-  'logos',
-  'CVs'
+  'logos'
 ];
 
 fs.rmSync(outDir, { recursive: true, force: true });
