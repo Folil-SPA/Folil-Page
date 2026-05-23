@@ -1,16 +1,28 @@
 {
   "name": "folil-labs",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Folil Labs landing page",
-  "main": "api/contact.js",
   "scripts": {
-    "build": "node scripts/build-static.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "nodemailer": "^6.9.8"
+    "next": "^16.2.6",
+    "nodemailer": "^6.9.8",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@types/nodemailer": "^8.0.0",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.3"
   }
 }
