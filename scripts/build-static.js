@@ -6,7 +6,6 @@ const outDir = path.join(root, 'build');
 
 const files = [
   'index.html',
-  'admin.html',
   'robots.txt',
   'sitemap.xml',
   'google18f72cc9585251b0.html'
