@@ -4,7 +4,7 @@ import { useLang } from "@/contexts/LanguageContext";
 
 const t = (lang: string) => ({
   waitlist: lang==="es"?"Lista de espera":"Waitlist",
-  email: "contacto@folil.com",
+  email: "contacto@folillabs.com",
 });
 
 export default function Footer() {
@@ -18,7 +18,7 @@ export default function Footer() {
       </a>
       <p>&copy; 2025 Folil Labs · Santiago, Chile · PUC</p>
       <div className="footer-links">
-        <a href="mailto:contacto@folil.com">{txt.email}</a>
+        <a href="mailto:contacto@folillabs.com">{txt.email}</a>
         <a href="https://www.linkedin.com/in/patricio-acevedo-flores-63300b30b" target="_blank" rel="noopener">LinkedIn Patricio</a>
         <a href="https://www.linkedin.com/in/%C3%A1lvaro-navarrete-257a1423a/" target="_blank" rel="noopener">LinkedIn Alvaro</a>
         <a href="#waitlist">{txt.waitlist}</a>

@@ -53,7 +53,8 @@ export default function Nav() {
           <button className={`hamburger ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menú"><span/><span/><span/></button>
         </div>
       </nav>
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+      {menuOpen && (
+      <div className="mobile-menu">
         <a href="#value" onClick={() => setMenuOpen(false)}>{txt.whatWeDo}</a>
         <a href="#process" onClick={() => setMenuOpen(false)}>{txt.process}</a>
         <a href="#projects" onClick={() => setMenuOpen(false)}>{txt.projects}</a>
@@ -62,6 +63,7 @@ export default function Nav() {
         <a href="#team" onClick={() => setMenuOpen(false)}>{txt.team}</a>
         <a href="#waitlist" onClick={() => setMenuOpen(false)} style={{ color: "var(--accent)" }}>{txt.waitlist}</a>
       </div>
+      )}
       <div id="scroll-progress" style={{ width: `${progress}%` }}/>
       <style jsx>{`
         #scroll-progress { position: fixed; top: 72px; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 99; width: 0%; transition: none; box-shadow: 0 0 8px var(--accent-glow); }
@@ -83,8 +85,10 @@ export default function Nav() {
         .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
         .hamburger.open span:nth-child(2) { opacity: 0; }
         .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-        .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: rgba(10,10,7,0.96); backdrop-filter: blur(32px); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; font-family: var(--font-display); font-size: 1.25rem; }
-        .mobile-menu.open { display: flex; }
+                .mobile-menu {
+          display: flex;
+          position: fixed;
+          top: 72px; left: 0; right: 0; bottom: 0; background: rgba(10,10,7,0.96); backdrop-filter: blur(32px); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; font-family: var(--font-display); font-size: 1.25rem; }
         .mobile-menu a { color: var(--text); text-decoration: none; font-weight: 500; letter-spacing: -0.02em; transition: color 0.2s; }
         .mobile-menu a:hover { color: var(--accent); }
         @media (max-width: 768px) { .nav-links,.lang-toggle,.btn-cta { display: none; } .hamburger { display: flex; } }

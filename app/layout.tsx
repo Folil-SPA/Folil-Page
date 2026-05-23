@@ -32,6 +32,8 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
+        <style dangerouslySetInnerHTML={{ __html: `html,body{background:#0a0a07;color:#f5f0e8;margin:0}body{opacity:0;transition:opacity .12s}body.ready{opacity:1}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `window.addEventListener("load",()=>document.body.classList.add("ready"));` }} />
         <link rel="icon" href="/logos/logo-white-on-black.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
