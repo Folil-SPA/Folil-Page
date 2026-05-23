@@ -39,7 +39,10 @@ body {
 
 section {
   padding: clamp(4rem, 8vw, 8rem) 0;
+  position: relative;
+  border-top: 1px solid rgba(255,255,255,0.04);
 }
+section:first-of-type { border-top: none; }
 
 .section-tag {
   font-size: 0.72rem;

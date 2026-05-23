@@ -4,13 +4,13 @@ import { useEffect, useRef } from "react";
 import { useLang } from "@/contexts/LanguageContext";
 
 const t = (lang: string) => ({
-  badge: lang === "es" ? "Motor IA para empresas early adopters" : "AI engine for early adopter companies",
-  h1Before: lang === "es" ? "La " : "The ",
-  h1Em: lang === "es" ? "raíz" : "root",
-  h1After: lang === "es" ? " de tus<br>productos IA" : " of your<br>AI products",
-  sub: lang === "es" ? "Dos ingenieros PUC especializados en IA, listos para construir contigo desde cero. Sin estructura de consultora, sin overhead — solo ingeniería real aplicada a tu problema." : "Two PUC engineers specialized in AI, ready to build with you from scratch. No consulting overhead — just real engineering applied to your problem.",
-  cta: lang === "es" ? "Únete a la lista de espera" : "Join the waitlist",
-  how: lang === "es" ? "Cómo funciona" : "How it works",
+  badge: lang=="es"?"Motor IA para empresas early adopters":"AI engine for early adopter companies",
+  h1Before: lang=="es"?"La ":"The ",
+  h1Em: lang=="es"?"raíz":"root",
+  h1Rest: lang=="es"?"productos IA":"AI products",
+  sub: lang=="es"?"Dos ingenieros PUC especializados en IA, listos para construir contigo desde cero. Sin estructura de consultora, sin overhead — solo ingeniería real aplicada a tu problema.":"Two PUC engineers specialized in AI, ready to build with you from scratch. No consulting overhead — just real engineering applied to your problem.",
+  cta: lang=="es"?"Únete a la lista de espera":"Join the waitlist",
+  how: lang=="es"?"Cómo funciona":"How it works",
 });
 
 export default function Hero() {
@@ -91,7 +91,7 @@ export default function Hero() {
       <div className="hero-bg-grid"/><div className="hero-orb hero-orb-1"/><div className="hero-orb hero-orb-2"/><div className="hero-orb hero-orb-3"/>
       <div className="hero-content">
         <div className="hero-badge"><span className="dot"/><span>{txt.badge}</span></div>
-        <h1>{txt.h1Before}<em>{txt.h1Em}</em>{txt.h1After}</h1>
+        <h1>{txt.h1Before}<em>{txt.h1Em}</em> de tus<br/>{txt.h1Rest}</h1>
         <p className="hero-sub" dangerouslySetInnerHTML={{__html:txt.sub}}/>
         <div className="hero-cta"><a href="#waitlist" className="btn-primary">{txt.cta}</a><a href="#value" className="btn-ghost">{txt.how}</a></div>
       </div>

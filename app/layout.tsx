@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230a0a07'/><path d='M16 25V11' stroke='%23e8903c' stroke-width='2.1' stroke-linecap='round'/><path d='M16 18c-4.4-1.4-6.8-4.2-7.2-8.2M16 18c4.4-1.4 6.8-4.2 7.2-8.2M16 23c-4.2-1-7-3.2-8.4-6.8M16 23c4.2-1 7-3.2 8.4-6.8' stroke='%237fb069' stroke-width='1.9' stroke-linecap='round'/><circle cx='16' cy='8' r='2.1' fill='%23e8903c'/><circle cx='8.6' cy='9.4' r='1.8' fill='%237fb069'/><circle cx='23.4' cy='9.4' r='1.8' fill='%237fb069'/></svg>" />
+        <link rel="icon" href="/logos/logo-white-on-black.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link

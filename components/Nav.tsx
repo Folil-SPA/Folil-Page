@@ -16,14 +16,12 @@ const t = (lang: Lang) => ({
 export default function Nav() {
   const { lang, setLang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
       const total = document.documentElement.scrollHeight - window.innerHeight;
-      setScrolled(y > 40);
       setProgress(total > 0 ? (y / total) * 100 : 0);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -35,14 +33,9 @@ export default function Nav() {
 
   return (
     <>
-      <nav id="main-nav" className={scrolled ? "scrolled" : ""}>
+      <nav id="main-nav">
         <a href="#" className="logo">
-          <svg className="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" width="24" height="24">
-            <path d="M16 25V11" stroke="#e8903c" strokeWidth="2.1" strokeLinecap="round"/>
-            <path d="M16 18c-4.4-1.4-6.8-4.2-7.2-8.2M16 18c4.4-1.4 6.8-4.2 7.2-8.2M16 23c-4.2-1-7-3.2-8.4-6.8M16 23c4.2-1 7-3.2 8.4-6.8" stroke="#7fb069" strokeWidth="1.9" strokeLinecap="round"/>
-            <circle cx="16" cy="8" r="2.1" fill="#e8903c"/><circle cx="8.6" cy="9.4" r="1.8" fill="#7fb069"/><circle cx="23.4" cy="9.4" r="1.8" fill="#7fb069"/>
-            <path d="M11.8 25.4c1.9-1.3 3.3-2.5 4.2-3.7.9 1.2 2.3 2.4 4.2 3.7" stroke="#e8903c" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          <img src="/logos/logo-white-on-black.png" alt="Folil Labs" className="logo-img" />
           folil<span className="labs">labs</span>
         </a>
         <div className="nav-right">
@@ -71,10 +64,10 @@ export default function Nav() {
       </div>
       <div id="scroll-progress" style={{ width: `${progress}%` }}/>
       <style jsx>{`
-        #scroll-progress { position: fixed; top: 64px; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 99; width: 0%; transition: none; box-shadow: 0 0 8px var(--accent-glow); }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(1.5rem, 5vw, 4rem); height: 64px; background: rgba(10,10,7,0.55); backdrop-filter: blur(40px) saturate(180%); border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.4s; }
-        nav.scrolled { background: rgba(10,10,7,0.85); }
+        #scroll-progress { position: fixed; top: 72px; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 99; width: 0%; transition: none; box-shadow: 0 0 8px var(--accent-glow); }
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(1.5rem, 5vw, 4rem); height: 72px; background: #0a0a07; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em; text-decoration: none; color: var(--text); z-index: 101; }
+        .logo-img { width: 48px; height: 48px; object-fit: contain; }
         .labs { font-weight: 300; color: var(--muted); }
         .nav-right { display: flex; align-items: center; gap: 1.5rem; }
         .nav-links { display: flex; list-style: none; gap: 1.75rem; font-family: var(--font-display); font-size: 0.875rem; font-weight: 500; }
@@ -90,7 +83,7 @@ export default function Nav() {
         .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
         .hamburger.open span:nth-child(2) { opacity: 0; }
         .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-        .mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; background: rgba(10,10,7,0.96); backdrop-filter: blur(32px); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; font-family: var(--font-display); font-size: 1.25rem; }
+        .mobile-menu { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: rgba(10,10,7,0.96); backdrop-filter: blur(32px); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; font-family: var(--font-display); font-size: 1.25rem; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { color: var(--text); text-decoration: none; font-weight: 500; letter-spacing: -0.02em; transition: color 0.2s; }
         .mobile-menu a:hover { color: var(--accent); }

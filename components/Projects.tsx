@@ -39,7 +39,7 @@ export default function Projects() {
         </div>
       </div>
       <style jsx>{`
-        #projects { background: var(--surface); }
+        #projects { background: var(--bg); }
         .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
         .project-card { background: #0c0c09; border: 1px solid var(--border); border-radius: 14px; padding: clamp(1.5rem,3vw,2.25rem); position: relative; overflow: hidden; transition: all 0.3s ease; height: 100%; }
         .project-card:hover { border-color: rgba(232,144,60,0.18); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
