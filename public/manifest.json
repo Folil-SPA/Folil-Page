@@ -1,0 +1,36 @@
+{
+  "name": "Folil Labs",
+  "short_name": "Folil",
+  "description": "Motor de empresas early adopters que buscan lanzar productos IA en tiempo récord a costo reducido.",
+  "start_url": "https://folillabs.com",
+  "display": "standalone",
+  "background_color": "#0a0a07",
+  "theme_color": "#ffc65d",
+  "orientation": "portrait-primary",
+  "categories": ["business", "technology"],
+  "keywords": "Folil, Folil Labs, productos IA, inteligencia artificial",
+  "scope": "https://folillabs.com/",
+  "icons": [
+    {
+      "src": "/logos/logo-white-on-black.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Contacto",
+      "short_name": "Contacto",
+      "description": "Contacta con Folil Labs",
+      "url": "https://folillabs.com#waitlist",
+      "icons": [
+        {
+          "src": "/logos/logo-white-on-black.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
