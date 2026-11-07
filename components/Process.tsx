@@ -1,6 +1,7 @@
 "use client";
 
 import ScrollReveal from "./ScrollReveal";
+import { SectionHeading, SectionFooter } from "./PageElements";
 import { useLang } from "@/contexts/LanguageContext";
 
 const t = (l: string) => ({
@@ -16,42 +17,30 @@ const t = (l: string) => ({
 export default function Process() {
   const { lang } = useLang();
   const txt = t(lang);
+  const es = lang === "es";
   return (
-    <section id="process">
-      <div className="process-bg"/>
+    <section id="process" aria-labelledby="process-title">
       <div className="container">
-        <ScrollReveal><span className="section-tag">{txt.tag}</span></ScrollReveal>
-        <ScrollReveal delay={80}><h2>{txt.h2}</h2></ScrollReveal>
-        <div className="process-steps">
-          <div className="process-line"/>
-          {txt.steps.map((s, i) => (
-            <ScrollReveal key={s.num} type="slide-left" delay={200 + i * 120}>
-              <div className="step">
-                <div className="step-marker"><span className="step-dot"/><span className="step-num">{s.num}</span></div>
-                <div className="step-body">
-                  <div className="step-phase">{s.phase} <span className="step-time">{s.time}</span></div>
-                  <h3>{s.title}</h3>
-                  <p>{s.desc}</p>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
+        <div className="process-layout">
+          <SectionHeading id="process-title" eyebrow={txt.tag} description={es ? "Un camino claro. Desde entender tu problema hasta poner la solución en tus manos." : "A clear path. From understanding your problem to putting the solution in your hands."}>
+            {es ? <>De la raíz<br /><em>al producto.</em></> : <>From the root<br /><em>to your product.</em></>}
+          </SectionHeading>
+          <div className="process-steps">
+            {txt.steps.map((step, i) => (
+              <ScrollReveal key={step.num} delay={i * 100}>
+                <article className="step">
+                  <span className="step-marker">{step.num}</span>
+                  <div className="step-body">
+                    <div className="step-phase">{step.phase}<span className="step-time">{step.time}</span></div>
+                    <h3>{step.title}</h3><p>{step.desc}</p>
+                  </div>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
+        <SectionFooter number="02" label={es ? "Así trabajamos" : "How we work"} href="#projects" link={es ? "Experiencia aplicada" : "Applied experience"} />
       </div>
-      <style jsx>{`
-        #process { position: relative; overflow: hidden; background: var(--surface); }
-        .process-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 80% 50%, rgba(232,144,60,0.04) 0%, transparent 60%); pointer-events: none; }
-        .process-steps { position: relative; max-width: 680px; }
-        .process-line { position: absolute; left: 19px; top: 12px; bottom: 12px; width: 2px; background: linear-gradient(180deg, var(--accent), var(--accent2)); opacity: 0.25; }
-        .step { display: flex; gap: 1.5rem; padding: 1.5rem 0; }
-        .step-marker { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; flex-shrink: 0; }
-        .step-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 16px var(--accent-glow); margin-top: 4px; }
-        .step-num { font-family: var(--font-display); font-size: 2rem; font-weight: 700; letter-spacing: -0.04em; color: var(--muted); line-height: 1; }
-        .step-phase { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-family: var(--font-display); font-weight: 600; margin-bottom: 0.25rem; }
-        .step-time { color: var(--muted); font-weight: 400; letter-spacing: 0.05em; margin-left: 0.35rem; text-transform: none; }
-        h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
-        p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
-      `}</style>
     </section>
   );
 }

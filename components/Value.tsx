@@ -1,6 +1,7 @@
 "use client";
 
 import ScrollReveal from "./ScrollReveal";
+import { SectionHeading, SectionFooter } from "./PageElements";
 import { useLang } from "@/contexts/LanguageContext";
 
 const t = (l: string) => ({
@@ -23,38 +24,28 @@ const svgs = [
 export default function Value() {
   const { lang } = useLang();
   const txt = t(lang);
+  const es = lang === "es";
   return (
-    <section id="value">
-      <div className="value-accent"/>
+    <section id="value" aria-labelledby="value-title">
       <div className="container">
-        <ScrollReveal><span className="section-tag">{txt.tag}</span></ScrollReveal>
-        <ScrollReveal delay={80}><h2>{txt.h2}</h2></ScrollReveal>
-        <ScrollReveal delay={160}><p className="section-sub">{txt.sub}</p></ScrollReveal>
+        <SectionHeading id="value-title" eyebrow={txt.tag} description={txt.sub}>
+          {es ? <>Velocidad sin<br /><em>sacrificar calidad.</em></> : <>Speed without<br /><em>compromising quality.</em></>}
+        </SectionHeading>
+        <div className="network-space" aria-hidden="true" />
         <div className="value-grid">
           {txt.cards.map((item, i) => (
-            <ScrollReveal key={i} type="fade-up" delay={200 + i * 120}>
-              <div className="value-card">
-                <div className="value-border"/>
-                <div className="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{svgs[i]}</svg></div>
+            <ScrollReveal key={i} delay={i * 100}>
+              <article className="value-card">
+                <span className="card-index">0{i + 1} / <span className="brand-name">Folil Labs</span></span>
+                <div className="value-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{svgs[i]}</svg></div>
                 <h3>{item.title}</h3>
                 <p>{item.desc}</p>
-              </div>
+              </article>
             </ScrollReveal>
           ))}
         </div>
+        <SectionFooter number="01" label={es ? "Desde la raíz" : "From the root"} href="#process" link={es ? "Nuestro proceso" : "Our process"} />
       </div>
-      <style jsx>{`
-        #value { position: relative; overflow: hidden; }
-        .value-accent { position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0.4; }
-        .value-grid { display: flex; gap: 1.5rem; }
-        .value-card { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.3s ease; }
-        .value-card:hover { border-color: rgba(232,144,60,0.25); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
-        .value-border { position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--accent), var(--accent2)); border-radius: 3px 0 0 3px; }
-        .value-icon { width: 44px; height: 44px; background: var(--accent-dim); border: 1px solid rgba(232,144,60,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 1.25rem; }
-        h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
-        p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
-        @media (max-width: 768px) { .value-grid { flex-direction: column; } }
-      `}</style>
     </section>
   );
 }

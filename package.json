@@ -7,22 +7,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "typecheck": "tsc --noEmit",
+    "test:chile": "node scripts/check-chile.cjs"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.9"
   },
   "dependencies": {
     "next": "^16.2.6",
     "nodemailer": "^6.9.8",
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "three": "0.160.1"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
     "@types/nodemailer": "^8.0.0",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.160.0",
     "typescript": "^6.0.3"
   }
 }

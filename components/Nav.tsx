@@ -1,98 +1,102 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useLang, Lang } from "@/contexts/LanguageContext";
-
-const t = (lang: Lang) => ({
-  whatWeDo: lang === "es" ? "¿Qué hacemos?" : "What we do",
-  process: lang === "es" ? "Proceso" : "Process",
-  projects: lang === "es" ? "Proyectos" : "Projects",
-  team: lang === "es" ? "Equipo" : "Team",
-  waitlist: lang === "es" ? "Lista de espera" : "Join waitlist",
-  services: lang === "es" ? "Servicios" : "Services",
-  industries: lang === "es" ? "Industrias" : "Industries",
-});
+import { useEffect, useRef, useState } from "react";
+import { useLang, type Lang } from "@/contexts/LanguageContext";
+import { Arrow } from "./PageElements";
 
 export default function Nav() {
   const { lang, setLang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const headerRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+  const es = lang === "es";
+  const links = [
+    { href: "#value", label: es ? "Qué hacemos" : "What we do" },
+    { href: "#services", label: es ? "Servicios" : "Services" },
+    { href: "#process", label: es ? "Proceso" : "Process" },
+    { href: "#projects", label: es ? "Proyectos" : "Projects" },
+    { href: "#usecases", label: es ? "Industrias" : "Industries" },
+    { href: "#team", label: es ? "Equipo" : "Team" },
+  ];
 
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
       const total = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(total > 0 ? (y / total) * 100 : 0);
+      const progress = total > 0 ? Math.min(1, Math.max(0, window.scrollY / total)) : 0;
+      if (progressRef.current) progressRef.current.style.transform = `scaleX(${progress})`;
+      headerRef.current?.classList.toggle("nav-scrolled", window.scrollY > 24);
     };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    update();
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
-  const txt = t(lang);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.target instanceof Node && !headerRef.current?.contains(event.target)) setMenuOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [menuOpen]);
+
+  const changeLanguage = (next: Lang) => {
+    setLang(next);
+    document.documentElement.lang = next;
+  };
 
   return (
     <>
-      <nav id="main-nav">
-        <a href="#" className="logo">
-          <img src="/logos/logo-white-on-black.png" alt="Folil Labs" className="logo-img" />
-          folil<span className="labs">labs</span>
+      <a className="skip-link" href="#main-content">{es ? "Saltar al contenido" : "Skip to content"}</a>
+      <header id="main-nav" className="site-header" ref={headerRef} onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setMenuOpen(false);
+      }}>
+        <a href="#hero" className="brand" aria-label={es ? "Folil Labs · Inicio" : "Folil Labs · Home"} onClick={() => setMenuOpen(false)}>
+          <img src="/logos/logo-white.svg" alt="" width="44" height="50" />
+          <span>Folil<span className="brand-labs"> Labs</span></span>
         </a>
-        <div className="nav-right">
-          <ul className="nav-links">
-            <li><a href="#value">{txt.whatWeDo}</a></li>
-            <li><a href="#process">{txt.process}</a></li>
-            <li><a href="#projects">{txt.projects}</a></li>
-            <li><a href="#team">{txt.team}</a></li>
-          </ul>
-          <div className="lang-toggle">
-            <button className={lang === "es" ? "active" : ""} onClick={() => setLang("es")}>ES</button>
-            <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>EN</button>
+        <nav className="desktop-nav" aria-label={es ? "Navegación principal" : "Main navigation"}>
+          {links.filter(({ href }) => ["#value", "#process", "#projects", "#team"].includes(href)).map(({ href, label }) => <a key={href} href={href}>{label}</a>)}
+        </nav>
+        <div className="nav-actions">
+          <div className="lang-toggle" role="group" aria-label={es ? "Idioma" : "Language"}>
+            <button type="button" lang="es" aria-label="Español" aria-pressed={es} onClick={() => changeLanguage("es")}>ES</button>
+            <span aria-hidden="true">/</span>
+            <button type="button" lang="en" aria-label="English" aria-pressed={!es} onClick={() => changeLanguage("en")}>EN</button>
           </div>
-          <a href="#waitlist" className="btn-cta">{txt.waitlist}</a>
-          <button className={`hamburger ${menuOpen ? "open" : ""}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menú"><span/><span/><span/></button>
+          <a href="#waitlist" className="btn btn-secondary nav-cta" onClick={() => setMenuOpen(false)}>{es ? "Conversemos" : "Let’s talk"}<Arrow /></a>
+          <button ref={menuButtonRef} type="button" className="menu-button" aria-label={menuOpen ? (es ? "Cerrar menú" : "Close menu") : (es ? "Abrir menú" : "Open menu")} aria-expanded={menuOpen} aria-controls="site-menu" onClick={() => setMenuOpen(open => !open)}>
+            <span className="menu-label">{es ? "Menú" : "Menu"}</span>
+            <span className="menu-icon" aria-hidden="true"><span /><span /></span>
+          </button>
         </div>
-      </nav>
-      {menuOpen && (
-      <div className="mobile-menu">
-        <a href="#value" onClick={() => setMenuOpen(false)}>{txt.whatWeDo}</a>
-        <a href="#process" onClick={() => setMenuOpen(false)}>{txt.process}</a>
-        <a href="#projects" onClick={() => setMenuOpen(false)}>{txt.projects}</a>
-        <a href="#services" onClick={() => setMenuOpen(false)}>{txt.services}</a>
-        <a href="#usecases" onClick={() => setMenuOpen(false)}>{txt.industries}</a>
-        <a href="#team" onClick={() => setMenuOpen(false)}>{txt.team}</a>
-        <a href="#waitlist" onClick={() => setMenuOpen(false)} style={{ color: "var(--accent)" }}>{txt.waitlist}</a>
-      </div>
-      )}
-      <div id="scroll-progress" style={{ width: `${progress}%` }}/>
-      <style jsx>{`
-        #scroll-progress { position: fixed; top: 72px; left: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 99; width: 0%; transition: none; box-shadow: 0 0 8px var(--accent-glow); }
-        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(1.5rem, 5vw, 4rem); height: 72px; background: #0a0a07; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; letter-spacing: -0.02em; text-decoration: none; color: var(--text); z-index: 101; }
-        .logo-img { width: 48px; height: 48px; object-fit: contain; }
-        .labs { font-weight: 300; color: var(--muted); }
-        .nav-right { display: flex; align-items: center; gap: 1.5rem; }
-        .nav-links { display: flex; list-style: none; gap: 1.75rem; font-family: var(--font-display); font-size: 0.875rem; font-weight: 500; }
-        .nav-links a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--text); }
-        .lang-toggle { display: flex; background: var(--surface2); border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
-        .lang-toggle button { padding: 0.3rem 0.6rem; background: none; border: none; color: var(--muted); font-family: var(--font-display); font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .lang-toggle button.active { background: var(--accent); color: #000; }
-        .btn-cta { display: inline-flex; align-items: center; padding: 0.5rem 1.2rem; background: var(--text); color: #000; border-radius: 8px; font-family: var(--font-display); font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.2s; line-height: 1; }
-        .btn-cta:hover { opacity: 0.88; transform: translateY(-1px); }
-        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; z-index: 101; padding: 4px; }
-        .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); transition: all 0.3s; }
-        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4px,4px); }
-        .hamburger.open span:nth-child(2) { opacity: 0; }
-        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
-                .mobile-menu {
-          display: flex;
-          position: fixed;
-          top: 72px; left: 0; right: 0; bottom: 0; background: rgba(10,10,7,0.96); backdrop-filter: blur(32px); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; font-family: var(--font-display); font-size: 1.25rem; }
-        .mobile-menu a { color: var(--text); text-decoration: none; font-weight: 500; letter-spacing: -0.02em; transition: color 0.2s; }
-        .mobile-menu a:hover { color: var(--accent); }
-        @media (max-width: 768px) { .nav-links,.lang-toggle,.btn-cta { display: none; } .hamburger { display: flex; } }
-      `}</style>
+        <div id="site-menu" className="site-menu" hidden={!menuOpen}>
+          <nav aria-label={es ? "Todas las secciones" : "All sections"}>
+            {links.map(({ href, label }, index) => <a key={href} href={href} onClick={() => setMenuOpen(false)}><span>{label}</span><small>0{index + 1}</small></a>)}
+            <a className="menu-contact" href="#waitlist" onClick={() => setMenuOpen(false)}>{es ? "Lista de espera" : "Join the waitlist"}<Arrow /></a>
+          </nav>
+        </div>
+      </header>
+      <div className="scroll-progress" aria-hidden="true"><div ref={progressRef} /></div>
     </>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import ScrollReveal from "./ScrollReveal";
+import { SectionHeading, SectionFooter } from "./PageElements";
 import { useLang } from "@/contexts/LanguageContext";
 
 const t = (l: string) => ({
@@ -19,33 +20,25 @@ const t = (l: string) => ({
 export default function UseCases() {
   const { lang } = useLang();
   const txt = t(lang);
+  const es = lang === "es";
   return (
-    <section id="usecases">
-      <div className="usecases-glow"/>
+    <section id="usecases" aria-labelledby="usecases-title">
       <div className="container">
-        <ScrollReveal><span className="section-tag">{txt.tag}</span></ScrollReveal>
-        <ScrollReveal delay={80}><h2>{txt.h2}</h2></ScrollReveal>
-        <ScrollReveal delay={160}><p className="section-sub">{txt.sub}</p></ScrollReveal>
+        <SectionHeading id="usecases-title" eyebrow={txt.tag} description={txt.sub}>
+          {es ? <>Nuevas ideas.<br /><em>En tu industria.</em></> : <>New ideas.<br /><em>In your industry.</em></>}
+        </SectionHeading>
         <div className="cases-grid">
-          {txt.cases.map((c,i)=>(
-            <ScrollReveal key={c.label} delay={200+i*80}>
+          {txt.cases.map((item, i) => (
+            <ScrollReveal key={i} delay={i * 80}>
               <div className="case-chip">
-                <div className="case-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">{c.svg}</svg></div>
-                <span>{c.label}</span>
+                <span className="case-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{item.svg}</svg></span>
+                <span>{item.label}</span>
               </div>
             </ScrollReveal>
           ))}
         </div>
+        <SectionFooter number="05" label={es ? "Sin fronteras de industria" : "Across industries"} href="#team" link={es ? "Conoce al equipo" : "Meet the team"} />
       </div>
-      <style jsx>{`
-        #usecases { position: relative; overflow: hidden; }
-        .usecases-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(232,144,60,0.05) 0%, transparent 60%); pointer-events: none; }
-        .cases-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
-        .case-chip { display: flex; align-items: center; gap: 0.75rem; padding: 1.1rem 1.75rem; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; font-family: var(--font-display); font-size: 0.95rem; font-weight: 500; letter-spacing: -0.01em; transition: all 0.3s ease; }
-        .case-chip:hover { border-color: var(--accent); box-shadow: 0 0 32px rgba(232,144,60,0.15); transform: translateY(-2px); }
-        .case-icon { width: 40px; height: 40px; background: var(--accent-dim); border: 1px solid rgba(232,144,60,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
-        @media (max-width: 480px) { .case-chip { padding: 0.9rem 1.25rem; font-size: 0.85rem; } }
-      `}</style>
     </section>
   );
 }

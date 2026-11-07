@@ -1,6 +1,7 @@
 "use client";
 
 import ScrollReveal from "./ScrollReveal";
+import { SectionHeading, SectionFooter } from "./PageElements";
 import { useLang } from "@/contexts/LanguageContext";
 
 const t = (l: string) => ({
@@ -18,40 +19,27 @@ const t = (l: string) => ({
 export default function Projects() {
   const { lang } = useLang();
   const txt = t(lang);
+  const es = lang === "es";
   return (
-    <section id="projects">
+    <section id="projects" aria-labelledby="projects-title">
       <div className="container">
-        <ScrollReveal><span className="section-tag">{txt.tag}</span></ScrollReveal>
-        <ScrollReveal delay={80}><h2>{txt.h2}</h2></ScrollReveal>
-        <ScrollReveal delay={160}><p className="section-sub">{txt.sub}</p></ScrollReveal>
+        <SectionHeading id="projects-title" eyebrow={txt.tag} description={txt.sub}>
+          {es ? <>Lo que hemos<br /><em>construido.</em></> : <>What we have<br /><em>built.</em></>}
+        </SectionHeading>
         <div className="projects-grid">
-          {txt.projects.map((p, i) => (
-            <ScrollReveal key={i} type={i%2===0?"slide-left":"slide-right"} delay={200+i*120}>
-              <div className="project-card">
-                <div className="project-accent"/>
-                <div className="project-org">{p.org}</div>
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-                <div className="project-tags">{p.tags.map(t=><span key={t}>{t}</span>)}</div>
-              </div>
+          {txt.projects.map((project, i) => (
+            <ScrollReveal key={project.org} delay={(i % 2) * 100}>
+              <article className="project-card">
+                <div className="project-header"><span className="project-sector">0{i + 1} / {es ? ["Banca", "Defensa", "Salud", "Educación"][i] : ["Banking", "Defense", "Healthcare", "Education"][i]}</span></div>
+                <div className="project-org">{project.org}</div>
+                <h3>{project.title}</h3><p>{project.desc}</p>
+                <div className="project-tags">{project.tags.map(tag => <span className="project-tag" key={tag}>{tag}</span>)}</div>
+              </article>
             </ScrollReveal>
           ))}
         </div>
+        <SectionFooter number="03" label={es ? "Ingeniería en acción" : "Engineering in action"} href="#services" link={es ? "Qué construimos contigo" : "What we build with you"} />
       </div>
-      <style jsx>{`
-        #projects { background: var(--bg); }
-        .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
-        .project-card { background: #0c0c09; border: 1px solid var(--border); border-radius: 14px; padding: clamp(1.5rem,3vw,2.25rem); position: relative; overflow: hidden; transition: all 0.3s ease; height: 100%; }
-        .project-card:hover { border-color: rgba(232,144,60,0.18); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
-        .project-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); }
-        .project-card:nth-child(2) .project-accent, .project-card:nth-child(4) .project-accent { background: var(--accent2); }
-        .project-org { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-family: var(--font-display); font-weight: 500; margin-bottom: 0.75rem; opacity: 0.8; }
-        h3 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.5rem; color: var(--text); }
-        p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem; }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-        .project-tags span { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; font-size: 0.68rem; padding: 0.15rem 0.55rem; color: var(--muted); font-family: var(--font-body); }
-        @media (max-width: 640px) { .projects-grid { grid-template-columns: 1fr; } }
-      `}</style>
     </section>
   );
 }

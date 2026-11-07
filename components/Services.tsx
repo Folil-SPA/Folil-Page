@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ScrollReveal from "./ScrollReveal";
+import { SectionHeading, SectionFooter } from "./PageElements";
 import { useLang } from "@/contexts/LanguageContext";
 
 const t = (l: string) => ({
@@ -18,52 +19,34 @@ const t = (l: string) => ({
 export default function Services() {
   const { lang } = useLang();
   const txt = t(lang);
-  const [openIdx, setOpenIdx] = useState<number|null>(null);
+  const es = lang === "es";
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
   return (
-    <section id="services">
+    <section id="services" aria-labelledby="services-title">
       <div className="container">
-        <ScrollReveal><span className="section-tag">{txt.tag}</span></ScrollReveal>
-        <ScrollReveal delay={80}><h2>{txt.h2}</h2></ScrollReveal>
+        <SectionHeading id="services-title" eyebrow={txt.tag}>
+          {es ? <>Tu próximo paso.<br /><em>Lo construimos.</em></> : <>Your next step.<br /><em>We build it.</em></>}
+        </SectionHeading>
         <div className="services-grid">
-          {txt.cards.map((s,i)=>(
-            <ScrollReveal key={i} type="fade-up" delay={200+i*120}>
-              <div className={`service-card ${openIdx===i?"open":""}`} onClick={()=>setOpenIdx(openIdx===i?null:i)}>
-                <div className="service-top">
-                  <div className="service-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{s.svg}</svg></div>
-                  <div className="service-head"><h3>{s.title}</h3><span className="service-tag">{s.tag}</span></div>
-                  <svg className={`service-chevron ${openIdx===i?"open":""}`} width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          {txt.cards.map((service, i) => (
+            <ScrollReveal key={service.tag} delay={i * 80}>
+              <article className={"service-card" + (openIdx === i ? " open" : "")}>
+                <span className="service-num">0{i + 1} / {service.tag}</span>
+                <div className="service-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{service.svg}</svg></div>
+                <h3>{service.title}</h3><p>{service.desc}</p>
+                <button className="service-toggle" type="button" aria-expanded={openIdx === i} aria-controls={"service-detail-" + i} onClick={() => setOpenIdx(openIdx === i ? null : i)}>
+                  {es ? (openIdx === i ? "Ver menos" : "Qué incluye") : (openIdx === i ? "Show less" : "What's included")}<span aria-hidden="true">{openIdx === i ? "−" : "+"}</span>
+                </button>
+                <div id={"service-detail-" + i} className="service-detail" hidden={openIdx !== i}>
+                  <h4>{service.detailTitle}</h4>
+                  <ul>{service.details.map(detail => <li key={detail}>{detail}</li>)}</ul>
                 </div>
-                <p>{s.desc}</p>
-                <div className="service-detail"><div className="service-detail-inner">
-                  <div className="service-detail-title">{s.detailTitle}</div>
-                  <div className="service-examples">{s.details.map(d=><div className="service-example" key={d}>{d}</div>)}</div>
-                </div></div>
-              </div>
+              </article>
             </ScrollReveal>
           ))}
         </div>
+        <SectionFooter number="04" label={es ? "IA aplicada a tu problema" : "AI applied to your problem"} href="#waitlist" link={es ? "Hablemos de tu proyecto" : "Let's talk about your project"} />
       </div>
-      <style jsx>{`
-        #services { background: var(--surface); overflow: hidden; }
-        .services-grid { display: flex; flex-direction: column; gap: 1rem; max-width: 760px; }
-        .service-card { background: #0c0c09; border: 1px solid var(--border); border-left: 3px solid transparent; border-radius: 0 14px 14px 0; padding: 1.5rem 1.75rem; cursor: pointer; transition: all 0.3s ease; }
-        .service-card:hover, .service-card.open { border-color: var(--border); border-left-color: var(--accent); background: #0f0f0c; }
-        .service-card.open { border-left-color: var(--accent); box-shadow: 0 0 24px rgba(232,144,60,0.08); }
-        .service-top { display: flex; align-items: center; gap: 1rem; }
-        .service-icon { width: 48px; height: 48px; flex-shrink: 0; background: var(--accent-dim); border: 1px solid rgba(232,144,60,0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
-        .service-head { flex: 1; min-width: 0; }
-        h3 { font-family: var(--font-display); font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.2rem; }
-        .service-tag { font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); opacity: 0.7; font-family: var(--font-display); font-weight: 500; }
-        .service-chevron { color: var(--muted); flex-shrink: 0; transition: transform 0.3s ease; }
-        .service-chevron.open { transform: rotate(180deg); color: var(--accent); }
-        p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; margin: 1rem 0 0 0; }
-        .service-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s var(--ease-spring); }
-        .service-card.open .service-detail { grid-template-rows: 1fr; }
-        .service-detail-inner { overflow: hidden; }
-        .service-detail-title { font-size: 0.78rem; font-weight: 600; color: var(--accent); font-family: var(--font-display); margin-top: 1rem; margin-bottom: 0.5rem; }
-        .service-examples { display: flex; flex-direction: column; gap: 0.4rem; }
-        .service-example { font-size: 0.8rem; color: var(--muted); line-height: 1.5; padding-left: 0.75rem; border-left: 1px solid rgba(255,255,255,0.06); }
-      `}</style>
     </section>
   );
 }
